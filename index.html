@@ -98,8 +98,13 @@
 
     /* Camera */
     #video{
-      width:100%; height:100%; object-fit:cover;
+      width:100%; height:100%; 
+      object-fit:cover;
       display:block;
+      
+      /* Fix for overly-zoomed cameras (OnePlus, Samsung, etc.) */
+      transform: scale(0.7);
+      transform-origin: center center;
     }
     .camera-hint{
       position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
@@ -125,6 +130,37 @@
       animation: spin .6s linear infinite;
     }
     @keyframes spin{ to{transform:rotate(360deg)} }
+
+    /* Zoom controls */
+    .zoom-controls{
+      position:absolute; right:12px; top:50%; transform:translateY(-50%);
+      display:flex; flex-direction:column; gap:8px;
+      z-index:50;
+    }
+    .zoom-btn{
+      width:44px; height:44px;
+      background: rgba(0,0,0,.65); backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:12px;
+      color:var(--text);
+      font-size:20px; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      transition: all .15s;
+    }
+    .zoom-btn:active{
+      transform:scale(0.92);
+      background: rgba(0,0,0,.8);
+    }
+    .zoom-level{
+      background: rgba(0,0,0,.65); backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:8px;
+      padding:6px 10px;
+      font-size:11px;
+      text-align:center;
+      color:var(--muted);
+    }
 
     /* Overlay results */
     .overlay{
@@ -449,6 +485,13 @@
         <p>Allow camera access to scan comics</p>
       </div>
 
+      <!-- Zoom controls -->
+      <div class="zoom-controls">
+        <button class="zoom-btn" id="zoomIn" title="Zoom In">+</button>
+        <div class="zoom-level" id="zoomLevel">70%</div>
+        <button class="zoom-btn" id="zoomOut" title="Zoom Out">−</button>
+      </div>
+
       <div class="capture-indicator" id="captureIndicator">
         <div class="spinner"></div>
         <span>Analyzing...</span>
@@ -745,10 +788,27 @@
     async function initCamera() {
       try {
         stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment', width: { ideal: 1920 }, height: { ideal: 1080 } },
+          video: { 
+            facingMode: 'environment',
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
+            zoom: { ideal: 1.0 },  // Disable zoom
+            focusMode: 'continuous',  // Auto-focus
+            aspectRatio: { ideal: 16/9 }
+          },
           audio: false
         });
         video.srcObject = stream;
+        
+        // Try to disable any zoom on the video track
+        const videoTrack = stream.getVideoTracks()[0];
+        const capabilities = videoTrack.getCapabilities();
+        
+        if (capabilities.zoom) {
+          await videoTrack.applyConstraints({
+            advanced: [{ zoom: capabilities.zoom.min || 1.0 }]
+          });
+        }
         cameraHint.style.display = 'none';
         
         // Auto-capture on stability (simulated - you could add motion detection)
@@ -772,6 +832,34 @@
         }
       }, 500);
     }
+
+    // ============================================================================
+    // ZOOM CONTROLS (CSS-based for OnePlus compatibility)
+    // ============================================================================
+    
+    let currentZoom = 0.7; // Start at 70% to counteract OnePlus over-zoom
+    const zoomInBtn = document.getElementById('zoomIn');
+    const zoomOutBtn = document.getElementById('zoomOut');
+    const zoomLevelDisplay = document.getElementById('zoomLevel');
+    
+    function updateZoom() {
+      video.style.transform = `scale(${currentZoom})`;
+      zoomLevelDisplay.textContent = `${Math.round(currentZoom * 100)}%`;
+    }
+    
+    zoomInBtn.addEventListener('click', () => {
+      if (currentZoom < 1.5) {
+        currentZoom += 0.1;
+        updateZoom();
+      }
+    });
+    
+    zoomOutBtn.addEventListener('click', () => {
+      if (currentZoom > 0.5) {
+        currentZoom -= 0.1;
+        updateZoom();
+      }
+    });
 
     // Restart auto-capture when overlay is dismissed
     function restartAutoCapture() {
