@@ -1,0 +1,1727 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Comic Intake</title>
+  
+  <!-- EMBEDDED COMIC KEY DATABASE - 764 keys covering 1930s-2020s -->
+  <script>
+    // Golden Age, Silver Age, Bronze Age, Copper Age, Modern Age
+    const COMIC_KEYS_DB = {"MARVEL::AMAZING FANTASY::15":{"r":"1st Spider-Man | 1st Amadeus Cho","i":10},"MARVEL::AMAZING SPIDERMAN::1":{"r":"1st solo Spider-Man | First issue of Amazing Spider-Man","i":9},"MARVEL::AMAZING SPIDERMAN::129":{"r":"1st Punisher","i":9},"MARVEL::AMAZING SPIDERMAN::300":{"r":"1st Venom | Anniversary issue #300","i":9},"MARVEL::AMAZING SPIDERMAN::361":{"r":"1st Carnage | 1st Carnage full","i":8},"MARVEL::AMAZING SPIDERMAN::252":{"r":"1st black costume | Black costume","i":8},"MARVEL::INCREDIBLE HULK::181":{"r":"1st Wolverine | 1st full Wolverine","i":10},"MARVEL::INCREDIBLE HULK::1":{"r":"1st Hulk | First issue of Incredible Hulk","i":10},"MARVEL::XMEN::1":{"r":"1st X-Men | First issue of X-Men","i":10},"MARVEL::GIANTSIZE XMEN::1":{"r":"New X-Men team","i":10},"MARVEL::XMEN::94":{"r":"New X-Men begins","i":8},"MARVEL::XMEN::101":{"r":"1st Phoenix | Origin Phoenix","i":10},"MARVEL::XMEN::129":{"r":"1st Kitty Pryde | 1st Emma Frost, The White Queen","i":10},"MARVEL::XMEN::141":{"r":"Days of Future Past | Days of Future Past begins","i":10},"MARVEL::NEW MUTANTS::98":{"r":"1st Deadpool","i":10},"MARVEL::AVENGERS::1":{"r":"1st Avengers | First issue of Avengers","i":10},"MARVEL::AVENGERS::4":{"r":"1st Silver Age Captain America","i":9},"MARVEL::AVENGERS::57":{"r":"1st Vision","i":8},"MARVEL::FANTASTIC FOUR::1":{"r":"1st Fantastic Four | First issue of Fantastic Four","i":10},"MARVEL::FANTASTIC FOUR::5":{"r":"1st Doctor Doom","i":9},"MARVEL::FANTASTIC FOUR::48":{"r":"1st Silver Surfer | 1st Galactus","i":9},"MARVEL::FANTASTIC FOUR::52":{"r":"1st Black Panther","i":9},"MARVEL::IRON MAN::1":{"r":"1st solo Iron Man | First issue of Iron Man","i":8},"MARVEL::IRON MAN::55":{"r":"1st Thanos | 1st Thanos Drax Starfox","i":10},"MARVEL::CAPTAIN AMERICA::1":{"r":"1st solo Captain America | First issue of Captain America","i":8},"MARVEL::DAREDEVIL::1":{"r":"1st Daredevil | First issue of Daredevil","i":8},"MARVEL::THOR::1":{"r":"1st solo Thor | First issue of Thor","i":8},"MARVEL::WEREWOLF BY NIGHT::32":{"r":"1st Moon Knight","i":9},"MARVEL::MARVEL SPOTLIGHT::5":{"r":"1st Ghost Rider","i":9},"MARVEL::HERO FOR HIRE::1":{"r":"1st Luke Cage","i":8},"MARVEL::MS MARVEL::1":{"r":"1st Ms. Marvel (Carol) | 1st Kamala Khan","i":9},"MARVEL::EDGE OF SPIDERVERSE::2":{"r":"1st Spider-Gwen","i":9},"MARVEL::ULTIMATE FALLOUT::4":{"r":"1st Miles Morales","i":10},"MARVEL::VENOM::4":{"r":"1st Knull","i":9},"MARVEL::WEB OF SPIDERMAN::1":{"r":"New series | First issue of Web of Spider-Man","i":8},"DC::ACTION COMICS::1":{"r":"1st Superman | First issue of Action Comics","i":10},"DC::DETECTIVE COMICS::27":{"r":"1st Batman","i":10},"DC::BATMAN::1":{"r":"1st solo Batman | First issue of Batman","i":9},"DC::SHOWCASE::4":{"r":"1st Silver Age Flash","i":10},"DC::SHOWCASE::22":{"r":"1st Silver Age Green Lantern","i":9},"DC::WONDER WOMAN::1":{"r":"1st Wonder Woman | First issue of Wonder Woman","i":9},"DC::FLASH::105":{"r":"1st solo Silver Age Flash | 1st Mirror Master","i":8},"DC::GREEN LANTERN::76":{"r":"Green Lantern/Green Arrow | Green Lantern Green Arrow team","i":8},"DC::CRISIS ON INFINITE EARTHS::7":{"r":"Death of Supergirl | Death Supergirl","i":8},"DC::BATMAN::497":{"r":"Bane breaks Batman's back","i":8},"DC::BATMAN ADVENTURES::12":{"r":"1st Harley Quinn in comics | 1st Harley Quinn in standard comic","i":10},"DC::BATMAN HARLEY QUINN::1":{"r":"1st Harley in main continuity | 1st Harley Quinn main universe","i":9},"DC::WATCHMEN::1":{"r":"Watchmen begins | 1st Watchmen","i":9},"DC::SANDMAN::1":{"r":"1st Sandman (Gaiman) | 1st Sandman","i":9},"DC::SAGA OF THE SWAMP THING::37":{"r":"1st John Constantine","i":9},"DC::NEW TEEN TITANS::2":{"r":"1st Deathstroke","i":9},"DC::BATMAN::386":{"r":"Jason Todd as Robin | 1st Black Mask","i":8},"IMAGE::WALKING DEAD::1":{"r":"1st Rick Grimes | First issue of Walking Dead","i":10},"IMAGE::WALKING DEAD::19":{"r":"1st Michonne","i":9},"IMAGE::SPAWN::1":{"r":"1st Spawn | First issue of Spawn","i":9},"IMAGE::INVINCIBLE::1":{"r":"1st Invincible | First issue of Invincible","i":9},"IMAGE::SAGA::1":{"r":"Saga begins | First issue of Saga","i":8},"IMAGE::CHEW::1":{"r":"Chew begins | 1st Chew","i":8},"MIRAGE::TEENAGE MUTANT NINJA TURTLES::1":{"r":"1st TMNT | 1st Teenage Mutant Ninja Turtles","i":10},"DARK HORSE::HELLBOY::1":{"r":"1st Hellboy","i":8},"VALIANT::HARBINGER::1":{"r":"1st Harbinger | 1st Renegades","i":8},"WILDSTORM::THE BOYS::1":{"r":"The Boys begins | 1st Billy Butcher","i":8},"MARVEL::THOR GOD OF THUNDER::2":{"r":"1st Gorr | 1st Gorr the God Butcher","i":8},"MARVEL::AMAZING SPIDERMAN::10":{"r":"1st Spider-Punk | 1st Spider Punk","i":8},"BOOM::SOMETHING IS KILLING THE CHILDREN::1":{"r":"1st Erica Slaughter","i":9},"DARK HORSE::STAR WARS THE CLONE WARS::1":{"r":"1st Ahsoka Tano","i":9},"MARVEL::SPECTACULAR SPIDERMAN::1":{"r":"First issue of Spectacular Spider-Man","i":7},"MARVEL::UNCANNY XMEN::1":{"r":"First issue of Uncanny X-Men","i":7},"MARVEL::XFORCE::1":{"r":"First issue of X-Force","i":7},"MARVEL::NEW MUTANTS::1":{"r":"First issue of New Mutants","i":7},"MARVEL::WOLVERINE::1":{"r":"First issue of Wolverine","i":7},"MARVEL::NEW AVENGERS::1":{"r":"First issue of New Avengers","i":7},"MARVEL::PUNISHER::1":{"r":"First issue of Punisher","i":7},"MARVEL::DEADPOOL::1":{"r":"First issue of Deadpool","i":7},"MARVEL::VENOM::1":{"r":"First issue of Venom | New series","i":8},"MARVEL::SILVER SURFER::1":{"r":"First issue of Silver Surfer | 1st solo series","i":8},"MARVEL::GHOST RIDER::1":{"r":"First issue of Ghost Rider","i":7},"DC::DETECTIVE COMICS::1":{"r":"First issue of Detective Comics","i":7},"DC::SUPERMAN::1":{"r":"First issue of Superman","i":7},"DC::JUSTICE LEAGUE::1":{"r":"First issue of Justice League","i":7},"DC::FLASH::1":{"r":"First issue of Flash","i":7},"DC::GREEN LANTERN::1":{"r":"First issue of Green Lantern","i":7},"DC::AQUAMAN::1":{"r":"First issue of Aquaman","i":7},"DC::TEEN TITANS::1":{"r":"First issue of Teen Titans","i":7},"DC::HARLEY QUINN::1":{"r":"First issue of Harley Quinn","i":7},"DC::JOKER::1":{"r":"First issue of Joker","i":7},"MARVEL::AMAZING SPIDERMAN::25":{"r":"Anniversary issue #25","i":6},"MARVEL::AMAZING SPIDERMAN::50":{"r":"Anniversary issue #50 | 1st Kingpin","i":8},"MARVEL::AMAZING SPIDERMAN::75":{"r":"Anniversary issue #75","i":6},"MARVEL::AMAZING SPIDERMAN::100":{"r":"Anniversary issue #100","i":6},"MARVEL::AMAZING SPIDERMAN::200":{"r":"Anniversary issue #200","i":6},"MARVEL::AMAZING SPIDERMAN::400":{"r":"Anniversary issue #400","i":6},"MARVEL::AMAZING SPIDERMAN::500":{"r":"Anniversary issue #500","i":6},"MARVEL::AMAZING SPIDERMAN::600":{"r":"Anniversary issue #600","i":6},"MARVEL::AMAZING SPIDERMAN::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::SPECTACULAR SPIDERMAN::25":{"r":"Anniversary issue #25","i":6},"MARVEL::SPECTACULAR SPIDERMAN::50":{"r":"Anniversary issue #50","i":6},"MARVEL::SPECTACULAR SPIDERMAN::75":{"r":"Anniversary issue #75","i":6},"MARVEL::SPECTACULAR SPIDERMAN::100":{"r":"Anniversary issue #100","i":6},"MARVEL::SPECTACULAR SPIDERMAN::200":{"r":"Anniversary issue #200","i":6},"MARVEL::SPECTACULAR SPIDERMAN::300":{"r":"Anniversary issue #300","i":6},"MARVEL::SPECTACULAR SPIDERMAN::400":{"r":"Anniversary issue #400","i":6},"MARVEL::SPECTACULAR SPIDERMAN::500":{"r":"Anniversary issue #500","i":6},"MARVEL::SPECTACULAR SPIDERMAN::600":{"r":"Anniversary issue #600","i":6},"MARVEL::SPECTACULAR SPIDERMAN::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::WEB OF SPIDERMAN::25":{"r":"Anniversary issue #25","i":6},"MARVEL::WEB OF SPIDERMAN::50":{"r":"Anniversary issue #50","i":6},"MARVEL::WEB OF SPIDERMAN::75":{"r":"Anniversary issue #75","i":6},"MARVEL::WEB OF SPIDERMAN::100":{"r":"Anniversary issue #100","i":6},"MARVEL::WEB OF SPIDERMAN::200":{"r":"Anniversary issue #200","i":6},"MARVEL::WEB OF SPIDERMAN::300":{"r":"Anniversary issue #300","i":6},"MARVEL::WEB OF SPIDERMAN::400":{"r":"Anniversary issue #400","i":6},"MARVEL::WEB OF SPIDERMAN::500":{"r":"Anniversary issue #500","i":6},"MARVEL::WEB OF SPIDERMAN::600":{"r":"Anniversary issue #600","i":6},"MARVEL::WEB OF SPIDERMAN::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::XMEN::25":{"r":"Anniversary issue #25","i":6},"MARVEL::XMEN::50":{"r":"Anniversary issue #50","i":6},"MARVEL::XMEN::75":{"r":"Anniversary issue #75","i":6},"MARVEL::XMEN::100":{"r":"Anniversary issue #100","i":6},"MARVEL::XMEN::200":{"r":"Anniversary issue #200","i":6},"MARVEL::XMEN::300":{"r":"Anniversary issue #300","i":6},"MARVEL::XMEN::400":{"r":"Anniversary issue #400","i":6},"MARVEL::XMEN::500":{"r":"Anniversary issue #500","i":6},"MARVEL::XMEN::600":{"r":"Anniversary issue #600","i":6},"MARVEL::XMEN::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::UNCANNY XMEN::25":{"r":"Anniversary issue #25","i":6},"MARVEL::UNCANNY XMEN::50":{"r":"Anniversary issue #50","i":6},"MARVEL::UNCANNY XMEN::75":{"r":"Anniversary issue #75","i":6},"MARVEL::UNCANNY XMEN::100":{"r":"Anniversary issue #100","i":6},"MARVEL::UNCANNY XMEN::200":{"r":"Anniversary issue #200","i":6},"MARVEL::UNCANNY XMEN::300":{"r":"Anniversary issue #300","i":6},"MARVEL::UNCANNY XMEN::400":{"r":"Anniversary issue #400","i":6},"MARVEL::UNCANNY XMEN::500":{"r":"Anniversary issue #500","i":6},"MARVEL::UNCANNY XMEN::600":{"r":"Anniversary issue #600","i":6},"MARVEL::UNCANNY XMEN::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::XFORCE::25":{"r":"Anniversary issue #25","i":6},"MARVEL::XFORCE::50":{"r":"Anniversary issue #50","i":6},"MARVEL::XFORCE::75":{"r":"Anniversary issue #75","i":6},"MARVEL::XFORCE::100":{"r":"Anniversary issue #100","i":6},"MARVEL::XFORCE::200":{"r":"Anniversary issue #200","i":6},"MARVEL::XFORCE::300":{"r":"Anniversary issue #300","i":6},"MARVEL::XFORCE::400":{"r":"Anniversary issue #400","i":6},"MARVEL::XFORCE::500":{"r":"Anniversary issue #500","i":6},"MARVEL::XFORCE::600":{"r":"Anniversary issue #600","i":6},"MARVEL::XFORCE::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::NEW MUTANTS::25":{"r":"Anniversary issue #25","i":6},"MARVEL::NEW MUTANTS::50":{"r":"Anniversary issue #50","i":6},"MARVEL::NEW MUTANTS::75":{"r":"Anniversary issue #75","i":6},"MARVEL::NEW MUTANTS::100":{"r":"Anniversary issue #100","i":6},"MARVEL::NEW MUTANTS::200":{"r":"Anniversary issue #200","i":6},"MARVEL::NEW MUTANTS::300":{"r":"Anniversary issue #300","i":6},"MARVEL::NEW MUTANTS::400":{"r":"Anniversary issue #400","i":6},"MARVEL::NEW MUTANTS::500":{"r":"Anniversary issue #500","i":6},"MARVEL::NEW MUTANTS::600":{"r":"Anniversary issue #600","i":6},"MARVEL::NEW MUTANTS::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::WOLVERINE::25":{"r":"Anniversary issue #25","i":6},"MARVEL::WOLVERINE::50":{"r":"Anniversary issue #50","i":6},"MARVEL::WOLVERINE::75":{"r":"Anniversary issue #75","i":6},"MARVEL::WOLVERINE::100":{"r":"Anniversary issue #100","i":6},"MARVEL::WOLVERINE::200":{"r":"Anniversary issue #200","i":6},"MARVEL::WOLVERINE::300":{"r":"Anniversary issue #300","i":6},"MARVEL::WOLVERINE::400":{"r":"Anniversary issue #400","i":6},"MARVEL::WOLVERINE::500":{"r":"Anniversary issue #500","i":6},"MARVEL::WOLVERINE::600":{"r":"Anniversary issue #600","i":6},"MARVEL::WOLVERINE::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::AVENGERS::25":{"r":"Anniversary issue #25","i":6},"MARVEL::AVENGERS::50":{"r":"Anniversary issue #50","i":6},"MARVEL::AVENGERS::75":{"r":"Anniversary issue #75","i":6},"MARVEL::AVENGERS::100":{"r":"Anniversary issue #100","i":6},"MARVEL::AVENGERS::200":{"r":"Anniversary issue #200","i":6},"MARVEL::AVENGERS::300":{"r":"Anniversary issue #300","i":6},"MARVEL::AVENGERS::400":{"r":"Anniversary issue #400","i":6},"MARVEL::AVENGERS::500":{"r":"Anniversary issue #500","i":6},"MARVEL::AVENGERS::600":{"r":"Anniversary issue #600","i":6},"MARVEL::AVENGERS::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::NEW AVENGERS::25":{"r":"Anniversary issue #25","i":6},"MARVEL::NEW AVENGERS::50":{"r":"Anniversary issue #50","i":6},"MARVEL::NEW AVENGERS::75":{"r":"Anniversary issue #75","i":6},"MARVEL::NEW AVENGERS::100":{"r":"Anniversary issue #100","i":6},"MARVEL::NEW AVENGERS::200":{"r":"Anniversary issue #200","i":6},"MARVEL::NEW AVENGERS::300":{"r":"Anniversary issue #300","i":6},"MARVEL::NEW AVENGERS::400":{"r":"Anniversary issue #400","i":6},"MARVEL::NEW AVENGERS::500":{"r":"Anniversary issue #500","i":6},"MARVEL::NEW AVENGERS::600":{"r":"Anniversary issue #600","i":6},"MARVEL::NEW AVENGERS::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::FANTASTIC FOUR::25":{"r":"Anniversary issue #25","i":6},"MARVEL::FANTASTIC FOUR::50":{"r":"Anniversary issue #50","i":6},"MARVEL::FANTASTIC FOUR::75":{"r":"Anniversary issue #75","i":6},"MARVEL::FANTASTIC FOUR::100":{"r":"Anniversary issue #100","i":6},"MARVEL::FANTASTIC FOUR::200":{"r":"Anniversary issue #200","i":6},"MARVEL::FANTASTIC FOUR::300":{"r":"Anniversary issue #300","i":6},"MARVEL::FANTASTIC FOUR::400":{"r":"Anniversary issue #400","i":6},"MARVEL::FANTASTIC FOUR::500":{"r":"Anniversary issue #500","i":6},"MARVEL::FANTASTIC FOUR::600":{"r":"Anniversary issue #600","i":6},"MARVEL::FANTASTIC FOUR::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::INCREDIBLE HULK::25":{"r":"Anniversary issue #25","i":6},"MARVEL::INCREDIBLE HULK::50":{"r":"Anniversary issue #50","i":6},"MARVEL::INCREDIBLE HULK::75":{"r":"Anniversary issue #75","i":6},"MARVEL::INCREDIBLE HULK::100":{"r":"Anniversary issue #100","i":6},"MARVEL::INCREDIBLE HULK::200":{"r":"Anniversary issue #200","i":6},"MARVEL::INCREDIBLE HULK::300":{"r":"Anniversary issue #300","i":6},"MARVEL::INCREDIBLE HULK::400":{"r":"Anniversary issue #400","i":6},"MARVEL::INCREDIBLE HULK::500":{"r":"Anniversary issue #500","i":6},"MARVEL::INCREDIBLE HULK::600":{"r":"Anniversary issue #600","i":6},"MARVEL::INCREDIBLE HULK::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::IRON MAN::25":{"r":"Anniversary issue #25","i":6},"MARVEL::IRON MAN::50":{"r":"Anniversary issue #50","i":6},"MARVEL::IRON MAN::75":{"r":"Anniversary issue #75","i":6},"MARVEL::IRON MAN::100":{"r":"Anniversary issue #100","i":6},"MARVEL::IRON MAN::200":{"r":"Anniversary issue #200","i":6},"MARVEL::IRON MAN::300":{"r":"Anniversary issue #300","i":6},"MARVEL::IRON MAN::400":{"r":"Anniversary issue #400","i":6},"MARVEL::IRON MAN::500":{"r":"Anniversary issue #500","i":6},"MARVEL::IRON MAN::600":{"r":"Anniversary issue #600","i":6},"MARVEL::IRON MAN::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::THOR::25":{"r":"Anniversary issue #25","i":6},"MARVEL::THOR::50":{"r":"Anniversary issue #50","i":6},"MARVEL::THOR::75":{"r":"Anniversary issue #75","i":6},"MARVEL::THOR::100":{"r":"Anniversary issue #100","i":6},"MARVEL::THOR::200":{"r":"Anniversary issue #200","i":6},"MARVEL::THOR::300":{"r":"Anniversary issue #300","i":6},"MARVEL::THOR::400":{"r":"Anniversary issue #400","i":6},"MARVEL::THOR::500":{"r":"Anniversary issue #500","i":6},"MARVEL::THOR::600":{"r":"Anniversary issue #600","i":6},"MARVEL::THOR::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::CAPTAIN AMERICA::25":{"r":"Anniversary issue #25 | Death of Cap","i":8},"MARVEL::CAPTAIN AMERICA::50":{"r":"Anniversary issue #50","i":6},"MARVEL::CAPTAIN AMERICA::75":{"r":"Anniversary issue #75","i":6},"MARVEL::CAPTAIN AMERICA::100":{"r":"Anniversary issue #100","i":6},"MARVEL::CAPTAIN AMERICA::200":{"r":"Anniversary issue #200","i":6},"MARVEL::CAPTAIN AMERICA::300":{"r":"Anniversary issue #300","i":6},"MARVEL::CAPTAIN AMERICA::400":{"r":"Anniversary issue #400","i":6},"MARVEL::CAPTAIN AMERICA::500":{"r":"Anniversary issue #500","i":6},"MARVEL::CAPTAIN AMERICA::600":{"r":"Anniversary issue #600","i":6},"MARVEL::CAPTAIN AMERICA::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::DAREDEVIL::25":{"r":"Anniversary issue #25","i":6},"MARVEL::DAREDEVIL::50":{"r":"Anniversary issue #50","i":6},"MARVEL::DAREDEVIL::75":{"r":"Anniversary issue #75","i":6},"MARVEL::DAREDEVIL::100":{"r":"Anniversary issue #100","i":6},"MARVEL::DAREDEVIL::200":{"r":"Anniversary issue #200","i":6},"MARVEL::DAREDEVIL::300":{"r":"Anniversary issue #300","i":6},"MARVEL::DAREDEVIL::400":{"r":"Anniversary issue #400","i":6},"MARVEL::DAREDEVIL::500":{"r":"Anniversary issue #500","i":6},"MARVEL::DAREDEVIL::600":{"r":"Anniversary issue #600","i":6},"MARVEL::DAREDEVIL::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::PUNISHER::25":{"r":"Anniversary issue #25","i":6},"MARVEL::PUNISHER::50":{"r":"Anniversary issue #50","i":6},"MARVEL::PUNISHER::75":{"r":"Anniversary issue #75","i":6},"MARVEL::PUNISHER::100":{"r":"Anniversary issue #100","i":6},"MARVEL::PUNISHER::200":{"r":"Anniversary issue #200","i":6},"MARVEL::PUNISHER::300":{"r":"Anniversary issue #300","i":6},"MARVEL::PUNISHER::400":{"r":"Anniversary issue #400","i":6},"MARVEL::PUNISHER::500":{"r":"Anniversary issue #500","i":6},"MARVEL::PUNISHER::600":{"r":"Anniversary issue #600","i":6},"MARVEL::PUNISHER::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::DEADPOOL::25":{"r":"Anniversary issue #25","i":6},"MARVEL::DEADPOOL::50":{"r":"Anniversary issue #50","i":6},"MARVEL::DEADPOOL::75":{"r":"Anniversary issue #75","i":6},"MARVEL::DEADPOOL::100":{"r":"Anniversary issue #100","i":6},"MARVEL::DEADPOOL::200":{"r":"Anniversary issue #200","i":6},"MARVEL::DEADPOOL::300":{"r":"Anniversary issue #300","i":6},"MARVEL::DEADPOOL::400":{"r":"Anniversary issue #400","i":6},"MARVEL::DEADPOOL::500":{"r":"Anniversary issue #500","i":6},"MARVEL::DEADPOOL::600":{"r":"Anniversary issue #600","i":6},"MARVEL::DEADPOOL::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::VENOM::25":{"r":"Anniversary issue #25","i":6},"MARVEL::VENOM::50":{"r":"Anniversary issue #50","i":6},"MARVEL::VENOM::75":{"r":"Anniversary issue #75","i":6},"MARVEL::VENOM::100":{"r":"Anniversary issue #100","i":6},"MARVEL::VENOM::200":{"r":"Anniversary issue #200","i":6},"MARVEL::VENOM::300":{"r":"Anniversary issue #300","i":6},"MARVEL::VENOM::400":{"r":"Anniversary issue #400","i":6},"MARVEL::VENOM::500":{"r":"Anniversary issue #500","i":6},"MARVEL::VENOM::600":{"r":"Anniversary issue #600","i":6},"MARVEL::VENOM::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::SILVER SURFER::25":{"r":"Anniversary issue #25","i":6},"MARVEL::SILVER SURFER::50":{"r":"Anniversary issue #50","i":6},"MARVEL::SILVER SURFER::75":{"r":"Anniversary issue #75","i":6},"MARVEL::SILVER SURFER::100":{"r":"Anniversary issue #100","i":6},"MARVEL::SILVER SURFER::200":{"r":"Anniversary issue #200","i":6},"MARVEL::SILVER SURFER::300":{"r":"Anniversary issue #300","i":6},"MARVEL::SILVER SURFER::400":{"r":"Anniversary issue #400","i":6},"MARVEL::SILVER SURFER::500":{"r":"Anniversary issue #500","i":6},"MARVEL::SILVER SURFER::600":{"r":"Anniversary issue #600","i":6},"MARVEL::SILVER SURFER::1000":{"r":"Anniversary issue #1000","i":6},"MARVEL::GHOST RIDER::25":{"r":"Anniversary issue #25","i":6},"MARVEL::GHOST RIDER::50":{"r":"Anniversary issue #50","i":6},"MARVEL::GHOST RIDER::75":{"r":"Anniversary issue #75","i":6},"MARVEL::GHOST RIDER::100":{"r":"Anniversary issue #100","i":6},"MARVEL::GHOST RIDER::200":{"r":"Anniversary issue #200","i":6},"MARVEL::GHOST RIDER::300":{"r":"Anniversary issue #300","i":6},"MARVEL::GHOST RIDER::400":{"r":"Anniversary issue #400","i":6},"MARVEL::GHOST RIDER::500":{"r":"Anniversary issue #500","i":6},"MARVEL::GHOST RIDER::600":{"r":"Anniversary issue #600","i":6},"MARVEL::GHOST RIDER::1000":{"r":"Anniversary issue #1000","i":6},"DC::BATMAN::25":{"r":"Anniversary issue #25","i":6},"DC::BATMAN::50":{"r":"Anniversary issue #50","i":6},"DC::BATMAN::75":{"r":"Anniversary issue #75","i":6},"DC::BATMAN::100":{"r":"Anniversary issue #100","i":6},"DC::BATMAN::200":{"r":"Anniversary issue #200","i":6},"DC::BATMAN::300":{"r":"Anniversary issue #300","i":6},"DC::BATMAN::400":{"r":"Anniversary issue #400","i":6},"DC::BATMAN::500":{"r":"Anniversary issue #500","i":6},"DC::BATMAN::600":{"r":"Anniversary issue #600","i":6},"DC::BATMAN::1000":{"r":"Anniversary issue #1000","i":6},"DC::DETECTIVE COMICS::25":{"r":"Anniversary issue #25","i":6},"DC::DETECTIVE COMICS::50":{"r":"Anniversary issue #50","i":6},"DC::DETECTIVE COMICS::75":{"r":"Anniversary issue #75","i":6},"DC::DETECTIVE COMICS::100":{"r":"Anniversary issue #100","i":6},"DC::DETECTIVE COMICS::200":{"r":"Anniversary issue #200","i":6},"DC::DETECTIVE COMICS::300":{"r":"Anniversary issue #300","i":6},"DC::DETECTIVE COMICS::400":{"r":"Anniversary issue #400 | 1st Man-Bat","i":8},"DC::DETECTIVE COMICS::500":{"r":"Anniversary issue #500","i":6},"DC::DETECTIVE COMICS::600":{"r":"Anniversary issue #600","i":6},"DC::DETECTIVE COMICS::1000":{"r":"Anniversary issue #1000","i":6},"DC::SUPERMAN::25":{"r":"Anniversary issue #25","i":6},"DC::SUPERMAN::50":{"r":"Anniversary issue #50","i":6},"DC::SUPERMAN::75":{"r":"Anniversary issue #75","i":6},"DC::SUPERMAN::100":{"r":"Anniversary issue #100","i":6},"DC::SUPERMAN::200":{"r":"Anniversary issue #200","i":6},"DC::SUPERMAN::300":{"r":"Anniversary issue #300","i":6},"DC::SUPERMAN::400":{"r":"Anniversary issue #400","i":6},"DC::SUPERMAN::500":{"r":"Anniversary issue #500","i":6},"DC::SUPERMAN::600":{"r":"Anniversary issue #600","i":6},"DC::SUPERMAN::1000":{"r":"Anniversary issue #1000","i":6},"DC::ACTION COMICS::25":{"r":"Anniversary issue #25","i":6},"DC::ACTION COMICS::50":{"r":"Anniversary issue #50","i":6},"DC::ACTION COMICS::75":{"r":"Anniversary issue #75","i":6},"DC::ACTION COMICS::100":{"r":"Anniversary issue #100","i":6},"DC::ACTION COMICS::200":{"r":"Anniversary issue #200","i":6},"DC::ACTION COMICS::300":{"r":"Anniversary issue #300","i":6},"DC::ACTION COMICS::400":{"r":"Anniversary issue #400","i":6},"DC::ACTION COMICS::500":{"r":"Anniversary issue #500","i":6},"DC::ACTION COMICS::600":{"r":"Anniversary issue #600","i":6},"DC::ACTION COMICS::1000":{"r":"Anniversary issue #1000","i":6},"DC::WONDER WOMAN::25":{"r":"Anniversary issue #25","i":6},"DC::WONDER WOMAN::50":{"r":"Anniversary issue #50","i":6},"DC::WONDER WOMAN::75":{"r":"Anniversary issue #75","i":6},"DC::WONDER WOMAN::100":{"r":"Anniversary issue #100","i":6},"DC::WONDER WOMAN::200":{"r":"Anniversary issue #200","i":6},"DC::WONDER WOMAN::300":{"r":"Anniversary issue #300","i":6},"DC::WONDER WOMAN::400":{"r":"Anniversary issue #400","i":6},"DC::WONDER WOMAN::500":{"r":"Anniversary issue #500","i":6},"DC::WONDER WOMAN::600":{"r":"Anniversary issue #600","i":6},"DC::WONDER WOMAN::1000":{"r":"Anniversary issue #1000","i":6},"DC::JUSTICE LEAGUE::25":{"r":"Anniversary issue #25","i":6},"DC::JUSTICE LEAGUE::50":{"r":"Anniversary issue #50","i":6},"DC::JUSTICE LEAGUE::75":{"r":"Anniversary issue #75","i":6},"DC::JUSTICE LEAGUE::100":{"r":"Anniversary issue #100","i":6},"DC::JUSTICE LEAGUE::200":{"r":"Anniversary issue #200","i":6},"DC::JUSTICE LEAGUE::300":{"r":"Anniversary issue #300","i":6},"DC::JUSTICE LEAGUE::400":{"r":"Anniversary issue #400","i":6},"DC::JUSTICE LEAGUE::500":{"r":"Anniversary issue #500","i":6},"DC::JUSTICE LEAGUE::600":{"r":"Anniversary issue #600","i":6},"DC::JUSTICE LEAGUE::1000":{"r":"Anniversary issue #1000","i":6},"DC::FLASH::25":{"r":"Anniversary issue #25","i":6},"DC::FLASH::50":{"r":"Anniversary issue #50","i":6},"DC::FLASH::75":{"r":"Anniversary issue #75","i":6},"DC::FLASH::100":{"r":"Anniversary issue #100","i":6},"DC::FLASH::200":{"r":"Anniversary issue #200","i":6},"DC::FLASH::300":{"r":"Anniversary issue #300","i":6},"DC::FLASH::400":{"r":"Anniversary issue #400","i":6},"DC::FLASH::500":{"r":"Anniversary issue #500","i":6},"DC::FLASH::600":{"r":"Anniversary issue #600","i":6},"DC::FLASH::1000":{"r":"Anniversary issue #1000","i":6},"DC::GREEN LANTERN::25":{"r":"Anniversary issue #25","i":6},"DC::GREEN LANTERN::50":{"r":"Anniversary issue #50","i":6},"DC::GREEN LANTERN::75":{"r":"Anniversary issue #75","i":6},"DC::GREEN LANTERN::100":{"r":"Anniversary issue #100","i":6},"DC::GREEN LANTERN::200":{"r":"Anniversary issue #200","i":6},"DC::GREEN LANTERN::300":{"r":"Anniversary issue #300","i":6},"DC::GREEN LANTERN::400":{"r":"Anniversary issue #400","i":6},"DC::GREEN LANTERN::500":{"r":"Anniversary issue #500","i":6},"DC::GREEN LANTERN::600":{"r":"Anniversary issue #600","i":6},"DC::GREEN LANTERN::1000":{"r":"Anniversary issue #1000","i":6},"DC::AQUAMAN::25":{"r":"Anniversary issue #25","i":6},"DC::AQUAMAN::50":{"r":"Anniversary issue #50","i":6},"DC::AQUAMAN::75":{"r":"Anniversary issue #75","i":6},"DC::AQUAMAN::100":{"r":"Anniversary issue #100","i":6},"DC::AQUAMAN::200":{"r":"Anniversary issue #200","i":6},"DC::AQUAMAN::300":{"r":"Anniversary issue #300","i":6},"DC::AQUAMAN::400":{"r":"Anniversary issue #400","i":6},"DC::AQUAMAN::500":{"r":"Anniversary issue #500","i":6},"DC::AQUAMAN::600":{"r":"Anniversary issue #600","i":6},"DC::AQUAMAN::1000":{"r":"Anniversary issue #1000","i":6},"DC::TEEN TITANS::25":{"r":"Anniversary issue #25","i":6},"DC::TEEN TITANS::50":{"r":"Anniversary issue #50","i":6},"DC::TEEN TITANS::75":{"r":"Anniversary issue #75","i":6},"DC::TEEN TITANS::100":{"r":"Anniversary issue #100","i":6},"DC::TEEN TITANS::200":{"r":"Anniversary issue #200","i":6},"DC::TEEN TITANS::300":{"r":"Anniversary issue #300","i":6},"DC::TEEN TITANS::400":{"r":"Anniversary issue #400","i":6},"DC::TEEN TITANS::500":{"r":"Anniversary issue #500","i":6},"DC::TEEN TITANS::600":{"r":"Anniversary issue #600","i":6},"DC::TEEN TITANS::1000":{"r":"Anniversary issue #1000","i":6},"DC::HARLEY QUINN::25":{"r":"Anniversary issue #25","i":6},"DC::HARLEY QUINN::50":{"r":"Anniversary issue #50","i":6},"DC::HARLEY QUINN::75":{"r":"Anniversary issue #75","i":6},"DC::HARLEY QUINN::100":{"r":"Anniversary issue #100","i":6},"DC::HARLEY QUINN::200":{"r":"Anniversary issue #200","i":6},"DC::HARLEY QUINN::300":{"r":"Anniversary issue #300","i":6},"DC::HARLEY QUINN::400":{"r":"Anniversary issue #400","i":6},"DC::HARLEY QUINN::500":{"r":"Anniversary issue #500","i":6},"DC::HARLEY QUINN::600":{"r":"Anniversary issue #600","i":6},"DC::HARLEY QUINN::1000":{"r":"Anniversary issue #1000","i":6},"DC::JOKER::25":{"r":"Anniversary issue #25","i":6},"DC::JOKER::50":{"r":"Anniversary issue #50","i":6},"DC::JOKER::75":{"r":"Anniversary issue #75","i":6},"DC::JOKER::100":{"r":"Anniversary issue #100","i":6},"DC::JOKER::200":{"r":"Anniversary issue #200","i":6},"DC::JOKER::300":{"r":"Anniversary issue #300","i":6},"DC::JOKER::400":{"r":"Anniversary issue #400","i":6},"DC::JOKER::500":{"r":"Anniversary issue #500","i":6},"DC::JOKER::600":{"r":"Anniversary issue #600","i":6},"DC::JOKER::1000":{"r":"Anniversary issue #1000","i":6},"IMAGE::SPAWN::25":{"r":"Anniversary issue #25","i":6},"IMAGE::SPAWN::50":{"r":"Anniversary issue #50","i":6},"IMAGE::SPAWN::75":{"r":"Anniversary issue #75","i":6},"IMAGE::SPAWN::100":{"r":"Anniversary issue #100","i":6},"IMAGE::SPAWN::200":{"r":"Anniversary issue #200","i":6},"IMAGE::SPAWN::300":{"r":"Anniversary issue #300","i":6},"IMAGE::SPAWN::400":{"r":"Anniversary issue #400","i":6},"IMAGE::SPAWN::500":{"r":"Anniversary issue #500","i":6},"IMAGE::SPAWN::600":{"r":"Anniversary issue #600","i":6},"IMAGE::SPAWN::1000":{"r":"Anniversary issue #1000","i":6},"IMAGE::WALKING DEAD::25":{"r":"Anniversary issue #25","i":6},"IMAGE::WALKING DEAD::50":{"r":"Anniversary issue #50","i":6},"IMAGE::WALKING DEAD::75":{"r":"Anniversary issue #75","i":6},"IMAGE::WALKING DEAD::100":{"r":"Anniversary issue #100","i":6},"IMAGE::WALKING DEAD::200":{"r":"Anniversary issue #200","i":6},"IMAGE::WALKING DEAD::300":{"r":"Anniversary issue #300","i":6},"IMAGE::WALKING DEAD::400":{"r":"Anniversary issue #400","i":6},"IMAGE::WALKING DEAD::500":{"r":"Anniversary issue #500","i":6},"IMAGE::WALKING DEAD::600":{"r":"Anniversary issue #600","i":6},"IMAGE::WALKING DEAD::1000":{"r":"Anniversary issue #1000","i":6},"IMAGE::INVINCIBLE::25":{"r":"Anniversary issue #25","i":6},"IMAGE::INVINCIBLE::50":{"r":"Anniversary issue #50","i":6},"IMAGE::INVINCIBLE::75":{"r":"Anniversary issue #75","i":6},"IMAGE::INVINCIBLE::100":{"r":"Anniversary issue #100","i":6},"IMAGE::INVINCIBLE::200":{"r":"Anniversary issue #200","i":6},"IMAGE::INVINCIBLE::300":{"r":"Anniversary issue #300","i":6},"IMAGE::INVINCIBLE::400":{"r":"Anniversary issue #400","i":6},"IMAGE::INVINCIBLE::500":{"r":"Anniversary issue #500","i":6},"IMAGE::INVINCIBLE::600":{"r":"Anniversary issue #600","i":6},"IMAGE::INVINCIBLE::1000":{"r":"Anniversary issue #1000","i":6},"IMAGE::SAGA::25":{"r":"Anniversary issue #25","i":6},"IMAGE::SAGA::50":{"r":"Anniversary issue #50","i":6},"IMAGE::SAGA::75":{"r":"Anniversary issue #75","i":6},"IMAGE::SAGA::100":{"r":"Anniversary issue #100","i":6},"IMAGE::SAGA::200":{"r":"Anniversary issue #200","i":6},"IMAGE::SAGA::300":{"r":"Anniversary issue #300","i":6},"IMAGE::SAGA::400":{"r":"Anniversary issue #400","i":6},"IMAGE::SAGA::500":{"r":"Anniversary issue #500","i":6},"IMAGE::SAGA::600":{"r":"Anniversary issue #600","i":6},"IMAGE::SAGA::1000":{"r":"Anniversary issue #1000","i":6},"DC::ABSOLUTE BATMAN::1":{"r":"Premiere issue Absolute Universe | Absolute Universe","i":8},"IMAGE::INVINCIBLE::19":{"r":"1st Battle Beast","i":8},"AVATAR::DREAMWALKER::0":{"r":"1st The Goon","i":8},"MARVEL::ALLNEW WOLVERINE::2":{"r":"1st Gabby/Honey Badger","i":8},"MARVEL::XFORCE::11":{"r":"1st Weapon PRIME","i":8},"MILESTONE::STATIC::1":{"r":"1st Static Shock","i":8},"MARVEL::ADAM LEGEND OF THE BLUE MARVEL::1":{"r":"1st Blue Marvel","i":8},"MARVEL::SPIDERMAN NOIR::1":{"r":"1st Spider-Man Noir | 1st Spiderman Noir","i":8},"IMAGE::THE WALKING DEAD::19":{"r":"1st Michonne","i":8},"DC::BATMAN::567":{"r":"1st Cassandra Cain | 1st Batgirl (Cassandra Cain)","i":8},"MARVEL::VENOM::9":{"r":"1st Dylan Brock","i":8},"MARVEL::AMAZING SPIDERMAN::569":{"r":"1st cameo Anti-Venom | 1st Anti-Venom","i":8},"MARVEL::AMAZING SPIDERMAN::654":{"r":"Flash Thompson becomes Agent Venom","i":8},"MARVEL::AMAZING SPIDERMAN::529":{"r":"Debut Iron Spider Suit","i":8},"MARVEL::WHAT IF::105":{"r":"1st Spider-Girl Mayday Parker | 1st Spider-Girl May Parker","i":8},"DC::SUPERMAN BATMAN ANNUAL::4":{"r":"1st Batman Beyond in main continuity","i":8},"DC::BATMAN BEYOND::1":{"r":"1st Terry McGinnis in comics | 1st Terry McGinnis comics","i":8},"MARVEL::NEW AVENGERS::27":{"r":"1st second Ronin (Clint Barton)","i":8},"MARVEL::WEB OF SPIDERMAN::118":{"r":"1st Ben Reilly as Scarlet Spider | 1st Scarlet Spider","i":8},"MARVEL::ULTIMATE FANTASTIC FOUR::22":{"r":"1st full Marvel Zombies","i":8},"MARVEL::INHUMANS::5":{"r":"1st Black Widow Yelena Belova","i":8},"ARCHIE::AFTERLIFE WITH ARCHIE::1":{"r":"Zombie Archie begins","i":8},"MARVEL::WAR OF THE REALMS NEW AGENTS OF ATLAS::1":{"r":"1st Luna Snow, Aero, Wave","i":8},"DARK HORSE::BLACK HAMMER::1":{"r":"1st Black Hammer","i":8},"DC::DETECTIVE COMICS::880":{"r":"Jock Joker cover","i":8},"MARVEL::RUNAWAYS::1":{"r":"1st Runaways team | 1st Runaways","i":8},"DC VERTIGO::PREACHER::1":{"r":"1st Jesse Custer | 1st Preacher","i":8},"DC::NAOMI::1":{"r":"1st Naomi","i":8},"AVATAR::GOON::1":{"r":"2nd Goon","i":8},"ONI::RICK AND MORTY::1":{"r":"Rick and Morty comic begins","i":8},"IMAGE::MONSTRESS::1":{"r":"1st Maika","i":8},"IMAGE::GOD COUNTRY::1":{"r":"God Country begins","i":8},"IDW::TEENAGE MUTANT NINJA TURTLES::95":{"r":"Jennika becomes TMNT","i":8},"IMAGE::THE WALKING DEAD::1":{"r":"1st Rick Grimes","i":8},"MARVEL::TALES TO ASTONISH::90":{"r":"1st Abomination","i":8},"MARVEL::JOURNEY INTO MYSTERY::114":{"r":"1st Absorbing Man","i":8},"IMAGE::SPAWN::9":{"r":"1st Angela","i":8},"MARVEL::FANTASTIC FOUR ANNUAL::6":{"r":"1st Annihilus","i":8},"MARVEL::AVENGERS::181":{"r":"1st Ant-man (Scott Pym)","i":8},"MARVEL::AMAZING FANTASY VOL 2::1":{"r":"1st Arana (Spider-girl)","i":8},"DC::BATMAN VENGEANCE OF BANE::1":{"r":"1st Bane","i":8},"DC::DETECTIVE COMICS::359":{"r":"1st Batgirl | 1st Batgirl Barbara Gordon","i":8},"MARVEL::XMEN::282":{"r":"1st Bishop","i":8},"MARVEL::AMAZING SPIDERMAN::194":{"r":"1st Black Cat","i":8},"DC::AQUAMAN::35":{"r":"1st Black Manta","i":8},"MARVEL::XMEN::317":{"r":"1st Blink","i":8},"DARK HORSE::STAR WARS::42":{"r":"1st Boba Fett","i":8},"MARVEL::XMEN::201":{"r":"1st Cable","i":8},"MARVEL::MARVEL GRAPHIC NOVEL::4":{"r":"1st Cannonball","i":8},"MARVEL::CAPTAIN AMERICA COMICS::1":{"r":"1st Captain America","i":8},"MARVEL::SPECTACULAR SPIDERMAN::64":{"r":"1st Cloak & Dagger","i":8},"MARVEL::XMEN GIANT::1":{"r":"1st Colossus | 1st Nightcrawler","i":8},"DC VERTIGO::SWAMP THING::37":{"r":"1st Constantine","i":8},"MARVEL::CAPTAIN AMERICA::359":{"r":"1st Crossbones","i":8},"DC::DC COMICS PRESENTS::26":{"r":"1st Cyborg | 1st Starfire","i":8},"MARVEL::WOLVERINE ORIGINS::10":{"r":"1st Daken (Wolverine's Son)","i":8},"MARVEL::XMEN::130":{"r":"1st Dazzler","i":8},"MARVEL::ASTONISHING TALES::25":{"r":"1st Deathlok","i":8},"MARVEL::STRANGE TALES::110":{"r":"1st Doctor Strange","i":8},"DC::SUPERMAN MAN OF STEEL::17":{"r":"1st Doomsday","i":8},"MARVEL::DAREDEVIL::168":{"r":"1st Elektra","i":8},"MARVEL::CAPTAIN AMERICA::117":{"r":"1st Falcon","i":8},"MARVEL::XMEN::128":{"r":"1st Fantomex","i":8},"MARVEL::XMEN::184":{"r":"1st Forge","i":8},"MARVEL::XMEN::266":{"r":"1st Gambit","i":8},"MARVEL::HULK::1":{"r":"1st Hulk","i":8},"MARVEL::MARVEL PREMIERE::15":{"r":"1st Iron Fist","i":8},"MARVEL::TALES OF SUSPENSE::39":{"r":"1st Iron Man","i":10},"MARVEL::XMEN::244":{"r":"1st Jubilee","i":8},"MARVEL::CAPTAIN MARVEL::14":{"r":"1st Kamala Khan","i":8},"DC::DETECTIVE COMICS::225":{"r":"1st Martian Manhunter","i":8},"MARVEL::AMAZING SPIDERMAN::101":{"r":"1st Morbius","i":8},"MARVEL::XMEN::221":{"r":"1st Mr. Sinister","i":8},"MARVEL::MS MARVEL::16":{"r":"1st Mystique","i":8},"MARVEL::AVENGERS::257":{"r":"1st Nebula","i":8},"DC::TALES OF THE TEEN TITANS::44":{"r":"1st Nightwing | Dick Grayson becomes Nightwing","i":8},"MARVEL::XMEN::191":{"r":"1st Nimrod","i":8},"MARVEL::XMEN::4":{"r":"1st Omega Red | 1st Scarlet Witch Quicksilver","i":8},"DC::BATMAN::181":{"r":"1st Poison Ivy","i":8},"MARVEL::NEW MUTANTS ANNUAL::2":{"r":"1st Psylocke | 1st Psylocke in US","i":8},"MARVEL::CAPTAIN AMERICA::217":{"r":"1st Quasar","i":8},"DC::BATMAN::232":{"r":"1st Ra's al Ghul","i":8},"DC::DETECTIVE COMICS::168":{"r":"1st Red Hood","i":8},"DC::DETECTIVE COMICS::38":{"r":"1st Robin","i":8},"MARVEL::MARVEL PREVIEW::7":{"r":"1st Rocket Raccoon","i":8},"MARVEL::AVENGERS ANNUAL::10":{"r":"1st Rouge","i":8},"DC VERTIGO::SANDMAN::1":{"r":"1st Sandman","i":8},"MARVEL::XMEN::14":{"r":"1st Sentinels","i":10},"MARVEL::SAVAGE SHE HULK::1":{"r":"1st She-Hulk","i":8},"MARVEL::AMAZING SPIDERMAN::265":{"r":"1st Silver Sable","i":8},"MARVEL::DAREDEVIL::111":{"r":"1st Silver Samurai","i":8},"MARVEL::MARVEL SUPER HEROES SECRET WARS::8":{"r":"1st Spiderman (Black Costume) | Origin symbiote","i":8},"MARVEL::MARVEL SPOTLIGHT::32":{"r":"1st Spiderwoman | 1st Spider-Woman","i":8},"DARK HORSE::STAR WARS::1":{"r":"1st Star Wars","i":8},"MARVEL::MARVEL SPOTLIGHT::6":{"r":"1st Starlord","i":8},"DC::LEGENDS::3":{"r":"1st Suicide Squad","i":8},"MARVEL::XMEN::64":{"r":"1st Sunfire","i":8},"MARVEL::AVENGERS::196":{"r":"1st Taskmaster","i":10},"MARVEL::JOURNEY INTO MYSTERY::83":{"r":"1st Thor","i":10},"MARVEL::HULK::449":{"r":"1st Thunderbolts","i":8},"MARVEL::MARVEL TAILS::1":{"r":"1st Spider-ham","i":8},"MARVEL::AMAZING SPIDERMAN::4":{"r":"1st Silk | 1st Sandman","i":8},"DC::BATMAN INCORPORATED::5":{"r":"1st Batwing","i":8},"DC::BATMAN::655":{"r":"1st Damian Wayne","i":8},"DC::DETECTIVE COMICS::647":{"r":"1st Stephanie Brown","i":8},"DC::BATMAN::21":{"r":"1st Duke Thomas","i":8},"DC::BATMAN::7":{"r":"1st Harper Row","i":8},"DC::BATMAN THE SIGNAL::1":{"r":"1st Signal","i":8},"DC::BATMAN::475":{"r":"1st Renee Montoya","i":8},"DC::FLASHPOINT::1":{"r":"1st Flashpoint","i":8},"DC::BATMAN::89":{"r":"1st Punchline","i":8},"DC::JUSTICE LEAGUE OF AMERICA::4":{"r":"1st Red Arrow","i":8},"DC::FLASH::110":{"r":"1st Kid Flash | 1st Wally West","i":8},"DC::FLASH::92":{"r":"1st Impulse","i":8},"DC::GREEN LANTERN::20":{"r":"1st Jessica Cruz","i":8},"DC::GREEN LANTERN::0":{"r":"1st Simon Baz","i":8},"DC::SWAMP THING::37":{"r":"1st Constantine","i":8},"DC::PREACHER::1":{"r":"1st Preacher | 1st Preacher characters","i":8},"MARVEL::THOR::337":{"r":"1st Beta Ray Bill","i":8},"MARVEL::GI JOE::21":{"r":"1st Storm Shadow","i":8},"MARVEL::NEW MUTANTS::18":{"r":"1st Warlock cameo","i":8},"MARVEL::POWER PACK::1":{"r":"1st Power Pack","i":8},"MARVEL::TRANSFORMERS::1":{"r":"1st Optimus Prime","i":8},"THOUGHTS & IMAGES::ALBEDO::2":{"r":"1st Usagi Yojimbo","i":8},"MARVEL::UNCANNY XMEN::191":{"r":"1st Nimrod","i":8},"MARVEL::NEW MUTANTS::26":{"r":"1st Legion","i":8},"DC::SAGA OF SWAMP THING::37":{"r":"1st John Constantine","i":8},"MARVEL::LONGSHOT::1":{"r":"1st Longshot, Spiral","i":8},"MARVEL::UNCANNY XMEN::201":{"r":"Baby Cable","i":8},"MARVEL::PUNISHER LIMITED SERIES::1":{"r":"1st Punisher solo","i":8},"MARVEL::XFACTOR::1":{"r":"1st X-Factor team","i":8},"MARVEL::XFACTOR::6":{"r":"1st full Apocalypse","i":8},"DC::BOOSTER GOLD::1":{"r":"1st Booster Gold","i":8},"DC::BATMAN DARK KNIGHT RETURNS::1":{"r":"1st Carrie Kelley Robin | 1st Carrie Kelley","i":8},"MARVEL::ALPHA FLIGHT::33":{"r":"Lady Deathstrike in costume","i":8},"MARVEL::UNCANNY XMEN::212":{"r":"Wolverine vs Sabretooth","i":8},"DC::SUICIDE SQUAD::1":{"r":"New team","i":8},"MARVEL::AMAZING SPIDERMAN ANNUAL::21":{"r":"Peter/MJ wedding","i":8},"MARVEL::AMAZING SPIDERMAN::238":{"r":"1st Hobgoblin","i":8},"DC::BATMAN::357":{"r":"Jason Todd becomes Robin","i":8},"DC::BATMAN::404":{"r":"Batman Year One | Batman Year One begins","i":8},"MARVEL::XFACTOR::5":{"r":"1st Apocalypse cameo","i":8},"MARVEL::UNCANNY XMEN::221":{"r":"1st Mr. Sinister","i":8},"MARVEL::UNCANNY XMEN::266":{"r":"1st Gambit full","i":8},"MARVEL::NEW MUTANTS::87":{"r":"1st Cable","i":8},"MARVEL::WOLVERINE LIMITED SERIES::1":{"r":"1st solo series","i":8},"DC::TALES OF TEEN TITANS::44":{"r":"Nightwing origin","i":8},"IMAGE::YOUNGBLOOD::1":{"r":"1st Image book","i":8},"IMAGE::WILDCATS::1":{"r":"1st WildCATS","i":8},"IMAGE::SAVAGE DRAGON::1":{"r":"1st Dragon ongoing","i":8},"COMICO::GRENDEL::1":{"r":"1st Grendel ongoing","i":8},"CARTOON BOOKS::BONE::1":{"r":"1st Bone","i":8},"CALIBER::CROW::1":{"r":"1st Crow","i":8},"DC::HELLBLAZER::1":{"r":"1st solo Constantine","i":8},"DC::VENGEANCE OF BANE::1":{"r":"1st Bane special","i":8},"MARVEL::INCREDIBLE HULK::377":{"r":"Professor Hulk","i":8},"MARVEL::XFORCE::2":{"r":"1st Deadpool card","i":8},"MARVEL::AMAZING SPIDERMAN::344":{"r":"1st Cletus Kasady","i":8},"DC::KINGDOM COME::1":{"r":"Prestige format","i":8},"IMAGE::WITCHBLADE::1":{"r":"1st Witchblade","i":8},"IMAGE::DARKNESS::1":{"r":"1st Darkness","i":8},"IMAGE::GEN13::1":{"r":"1st Gen13 ongoing","i":8},"DC::AUTHORITY::1":{"r":"1st Authority","i":8},"DC::PLANETARY::1":{"r":"1st Planetary","i":8},"DC::BATTLE CHASERS::1":{"r":"1st Battle Chasers","i":8},"IMAGE::ARIA::1":{"r":"1st Aria","i":8},"DC::Y THE LAST MAN::1":{"r":"1st Yorick","i":8},"DC::FABLES::1":{"r":"1st Fables","i":8},"MARVEL::NYX::3":{"r":"1st X-23","i":8},"MARVEL::ULTIMATE SPIDERMAN::1":{"r":"Ultimate Universe | New Ultimate","i":8},"MARVEL::ULTIMATE COMICS SPIDERMAN::1":{"r":"Miles ongoing","i":8},"MARVEL::NEW AVENGERS::7":{"r":"1st Illuminati","i":8},"MARVEL::ASTONISHING XMEN::1":{"r":"Whedon run","i":8},"MARVEL::ALIAS::1":{"r":"1st Jessica Jones","i":8},"DARK HORSE::STAR WARS CLONE WARS::1":{"r":"1st Ahsoka comics","i":8},"DC::IDENTITY CRISIS::1":{"r":"Major event","i":8},"DC::INFINITE CRISIS::1":{"r":"Major event","i":8},"DC::GREEN LANTERN REBIRTH::1":{"r":"Hal Jordan returns","i":8},"DC::BLACKEST NIGHT::1":{"r":"Major event","i":8},"DC::BATMAN HUSH::608":{"r":"Hush story begins","i":8},"IMAGE::PAPER GIRLS::1":{"r":"1st Paper Girls","i":8},"IMAGE::DEADLY CLASS::1":{"r":"1st Marcus Lopez","i":8},"IMAGE::EAST OF WEST::1":{"r":"1st Death character","i":8},"IMAGE::DESCENDER::1":{"r":"1st TIM-21","i":8},"IMAGE::BLACK SCIENCE::1":{"r":"1st Grant McKay","i":8},"IMAGE::LOW::1":{"r":"1st Stel Caine","i":8},"IMAGE::SOUTHERN BASTARDS::1":{"r":"1st Earl Tubb","i":8},"IMAGE::RAT QUEENS::1":{"r":"1st Rat Queens","i":8},"IMAGE::OUTCAST::1":{"r":"1st Kyle Barnes","i":8},"IMAGE::MORNING GLORIES::1":{"r":"1st Casey Blevins","i":8},"IMAGE::REVIVAL::1":{"r":"1st Dana Cypress","i":8},"IDW::LOCKE KEY::1":{"r":"1st Locke family","i":8},"IDW::TRANSFORMERS MORE THAN MEETS EYE::1":{"r":"Reboot","i":8},"IDW::TMNT::1":{"r":"New series","i":8},"MARVEL::VENOM::3":{"r":"1st Knull","i":8},"MARVEL::GUARDIANS OF KNOWHERE::1":{"r":"1st Gwenpool cameo","i":8},"MARVEL::HOWARD THE DUCK::1":{"r":"1st Gwenpool | 1st solo series","i":8},"MARVEL::THANOS::13":{"r":"1st Cosmic Ghost Rider","i":8},"MARVEL::OLD MAN LOGAN::1":{"r":"Old Man Logan ongoing","i":8},"MARVEL::MOON GIRL DEVIL DINOSAUR::1":{"r":"1st Lunella","i":8},"MARVEL::TOTALLY AWESOME HULK::1":{"r":"Amadeus as Hulk","i":8},"DC::DARK KNIGHT METAL::2":{"r":"Batman Who Laughs","i":8},"DC::FLASH::59":{"r":"1st Fuerza","i":8},"DC::AQUAMAN::19":{"r":"1st King Nereus","i":8},"DC::FAR SECTOR::1":{"r":"1st Sojourner Mullein","i":8},"MARVEL::WAR OF REALMS NEW AGENTS ATLAS::1":{"r":"New team","i":8},"BOOM::SOMETHING IS KILLING CHILDREN::1":{"r":"1st Erica Slaughter","i":8},"BOOM::ONCE FUTURE::1":{"r":"1st Bridgette McGuire","i":8},"IMAGE::DEPARTMENT OF TRUTH::1":{"r":"1st Cole Turner","i":8},"IMAGE::FIRE POWER::1":{"r":"1st Owen Johnson","i":8},"IMAGE::NOCTERRA::1":{"r":"1st Val Riggs","i":8},"IMAGE::RADIANT BLACK::1":{"r":"1st Nathan Burnett","i":8},"BOOM::WE ONLY FIND THEM DEAD::1":{"r":"1st Malik","i":8},"IMAGE::KING SPAWN::1":{"r":"New Spawn series","i":8},"IMAGE::GUNSLINGER SPAWN::1":{"r":"New character","i":8},"DC::BATMAN::106":{"r":"1st Ghost-Maker","i":8},"DC::STRANGE ADVENTURES::1":{"r":"Adam Strange","i":8},"DC::SUPERMAN SON OF KALEL::1":{"r":"Jon Kent Superman","i":8},"DC::ROBIN::1":{"r":"Damian solo","i":8},"DC::NIGHTWING::78":{"r":"Heartless","i":8},"MARVEL::IMMORTAL THOR::1":{"r":"New series","i":8},"MARVEL::TALES TO ASTONISH::27":{"r":"1st Ant-Man","i":8},"MARVEL::AMAZING SPIDERMAN::3":{"r":"1st Doctor Octopus","i":8},"MARVEL::AMAZING SPIDERMAN::6":{"r":"1st Lizard","i":8},"MARVEL::AMAZING SPIDERMAN::9":{"r":"1st Electro","i":8},"MARVEL::AMAZING SPIDERMAN::13":{"r":"1st Mysterio","i":8},"MARVEL::AMAZING SPIDERMAN::14":{"r":"1st Green Goblin","i":8},"MARVEL::AMAZING SPIDERMAN::20":{"r":"1st Scorpion","i":8},"MARVEL::AMAZING SPIDERMAN::28":{"r":"1st Molten Man","i":8},"MARVEL::AMAZING SPIDERMAN::33":{"r":"Classic Ditko issue","i":8},"MARVEL::AMAZING SPIDERMAN::39":{"r":"1st Romita art","i":8},"MARVEL::AMAZING SPIDERMAN::46":{"r":"1st Shocker","i":8},"MARVEL::FANTASTIC FOUR::4":{"r":"1st Silver Age Sub-Mariner","i":8},"MARVEL::FANTASTIC FOUR::12":{"r":"1st meeting Hulk","i":10},"MARVEL::FANTASTIC FOUR::45":{"r":"1st Inhumans","i":8},"MARVEL::FANTASTIC FOUR::49":{"r":"Silver Surfer Galactus full","i":8},"MARVEL::FANTASTIC FOUR::66":{"r":"1st Adam Warlock cameo","i":8},"MARVEL::FANTASTIC FOUR::67":{"r":"1st full Adam Warlock","i":8},"MARVEL::XMEN::12":{"r":"1st Juggernaut","i":10},"MARVEL::AVENGERS::8":{"r":"1st Kang","i":8},"MARVEL::AVENGERS::52":{"r":"1st Black Panther joins","i":8},"MARVEL::TALES OF SUSPENSE::52":{"r":"1st Black Widow","i":8},"MARVEL::TALES OF SUSPENSE::57":{"r":"1st Hawkeye","i":8},"MARVEL::TALES TO ASTONISH::13":{"r":"1st Groot","i":8},"MARVEL::MARVEL SUPERHEROES::12":{"r":"1st Captain Marvel","i":8},"MARVEL::MARVEL SUPERHEROES::18":{"r":"1st Guardians Galaxy","i":8},"MARVEL::SUBMARINER::1":{"r":"1st solo series","i":8},"MARVEL::STRANGE TALES::135":{"r":"1st Nick Fury SHIELD","i":8},"DC::BRAVE AND BOLD::28":{"r":"1st Justice League","i":8},"DC::SHOWCASE::9":{"r":"1st Lois Lane solo","i":8},"DC::ACTION COMICS::252":{"r":"1st Supergirl","i":8},"DC::ADVENTURE COMICS::247":{"r":"1st Legion Super-Heroes","i":8},"DC::DETECTIVE COMICS::327":{"r":"New look Batman begins","i":8},"DC::FLASH::123":{"r":"Flash of Two Worlds","i":8},"DC::JUSTICE LEAGUE OF AMERICA::1":{"r":"1st JLA series","i":8},"MARVEL::IRON FIST::14":{"r":"1st Sabretooth","i":8},"MARVEL::IRON FIST::1":{"r":"1st Danny Rand solo","i":8},"MARVEL::AMAZING SPIDERMAN::121":{"r":"Death Gwen Stacy","i":8},"MARVEL::INCREDIBLE HULK::180":{"r":"1st Wolverine cameo","i":10},"MARVEL::INCREDIBLE HULK::271":{"r":"1st Rocket Raccoon","i":8},"MARVEL::TOMB OF DRACULA::10":{"r":"1st Blade","i":9},"MARVEL::STAR WARS::1":{"r":"1st Star Wars comic","i":8},"MARVEL::STAR WARS::42":{"r":"1st Boba Fett comic","i":8},"MARVEL::MARVEL TEAMUP::141":{"r":"1st black costume appears","i":8},"MARVEL::DAREDEVIL::131":{"r":"1st Bullseye","i":8},"MARVEL::DAREDEVIL::158":{"r":"1st Frank Miller art","i":8},"MARVEL::CAPTAIN MARVEL::25":{"r":"1st Thanos origin","i":9},"MARVEL::CAPTAIN MARVEL::27":{"r":"1st Star-Lord prototype","i":8},"MARVEL::MARVEL PREVIEW::4":{"r":"1st Star-Lord","i":8},"MARVEL::POWER MAN::48":{"r":"1st Iron Fist Luke Cage team","i":8},"MARVEL::DEFENDERS::10":{"r":"Hulk vs Thor epic","i":8},"MARVEL::MARVEL TEAMUP::1":{"r":"1st series Spider-Man teams","i":8},"MARVEL::WHAT IF::1":{"r":"1st What If series","i":8},"MARVEL::CONAN BARBARIAN::1":{"r":"1st Conan Marvel","i":8},"MARVEL::MANTHING::1":{"r":"1st solo series","i":8},"MARVEL::SHANGCHI MASTER OF KUNG FU::1":{"r":"1st solo","i":8},"MARVEL::NOVA::1":{"r":"1st Richard Rider Nova","i":8},"DC::SUPERMAN PAL JIMMY OLSEN::134":{"r":"1st Darkseid","i":8},"DC::FOREVER PEOPLE::1":{"r":"New Gods saga","i":8},"DC::NEW GODS::1":{"r":"1st Orion Highfather","i":8},"DC::MISTER MIRACLE::1":{"r":"1st Scott Free","i":8},"DC::SWAMP THING::1":{"r":"1st Swamp Thing","i":8},"DC::HOUSE OF SECRETS::92":{"r":"1st Swamp Thing","i":8},"DC::GREEN LANTERN::87":{"r":"John Stewart 1st","i":8},"DC::NEW TEEN TITANS::1":{"r":"New team","i":8},"DC::BATMAN::234":{"r":"1st Two-Face Silver Age","i":8},"DC::BATMAN::251":{"r":"Classic Joker issue","i":8},"DC::DETECTIVE COMICS::411":{"r":"Talia al Ghul","i":8},"DC::DETECTIVE COMICS::457":{"r":"Leslie Thompkins","i":8},"DC::DETECTIVE COMICS::475":{"r":"1st Clayface III","i":8},"DC::ADVENTURE COMICS::425":{"r":"1st Vigilante modern","i":8},"DC::BRAVE AND BOLD::200":{"r":"Katana 1st","i":8},"DC::GREEN ARROW::1":{"r":"1st solo series","i":8},"DC::FLASH::217":{"r":"Classic cover","i":8},"DC::FLASH::214":{"r":"Classic cover","i":8},"DC::JUSTICE LEAGUE::183":{"r":"Darkseid epic","i":8},"DC::JONAH HEX::1":{"r":"1st solo series","i":8},"DC::KAMANDI::1":{"r":"1st Kamandi","i":8},"DC::OMAC::1":{"r":"1st OMAC","i":8},"DC::DEMON::1":{"r":"1st Etrigan","i":8},"DC::WARLORD::1":{"r":"1st Travis Morgan","i":8},"CAPITAL::NEXUS::1":{"r":"1st Nexus","i":8},"CAPITAL::BADGER::1":{"r":"1st Badger","i":8},"FIRST::AMERICAN FLAGG::1":{"r":"1st Flagg","i":8},"FIRST::GRIMJACK::1":{"r":"1st Grimjack","i":8},"MARVEL::ELEKTRA SAGA::1":{"r":"Elektra reprints","i":8},"AARDVARK-VANAHEIM::CEREBUS::1":{"r":"1st Cerebus","i":8},"WARP::ELFQUEST::1":{"r":"1st Elfquest","i":8},"FANTAGRAPHICS::LOVE AND ROCKETS::1":{"r":"1st issue","i":8}};
+  </script>
+    
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#101824; --text:#eaf1ff; --muted:#9fb0c9;
+      --blue:#2f78ff; --green:#2bd46f; --red:#ff4d4d; --yellow:#ffd54a; --outline:#243249;
+      --shadow: 0 12px 40px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; background:var(--bg); color:var(--text); 
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      overflow:hidden;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    button{font:inherit; border:0; background:none; padding:0; cursor:pointer}
+    input{font:inherit}
+    .app{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      padding: max(10px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+      gap:10px;
+      max-width: 520px;
+      margin:0 auto;
+    }
+
+    /* Top bar */
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:10px 12px; border:1px solid var(--outline); border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      flex-shrink:0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:12px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.12);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:800; letter-spacing:.5px; font-size:14px;
+    }
+    .title{font-weight:800; letter-spacing:.2px; font-size:15px}
+    .sub{font-size:11px; color:var(--muted); margin-top:2px}
+    .right{
+      display:flex; align-items:center; gap:8px;
+      text-align:right;
+    }
+    .pill{
+      padding:6px 9px; border-radius:999px; border:1px solid var(--outline);
+      background: rgba(255,255,255,.04);
+      font-size:11px; color:var(--muted);
+      display:flex; align-items:center; gap:6px;
+      white-space:nowrap;
+    }
+    .dot{width:9px;height:9px;border-radius:50%}
+    .dot.blue{background:var(--blue)}
+    .dot.green{background:var(--green)}
+    .dot.red{background:var(--red)}
+    .dot.yellow{background:var(--yellow)}
+    .counter{font-variant-numeric: tabular-nums; color:var(--text); font-weight:700; font-size:12px}
+
+    /* Main stage */
+    .stage{
+      position:relative;
+      flex:1;
+      border-radius: var(--radius);
+      border:1px solid var(--outline);
+      overflow:hidden;
+      background: #000;
+      box-shadow: var(--shadow);
+      min-height: 0;
+    }
+    .bin-border{box-shadow: var(--shadow)}
+    .bin-border.blue{box-shadow: 0 0 0 2px rgba(47,120,255,.28) inset, var(--shadow)}
+    .bin-border.green{box-shadow: 0 0 0 2px rgba(43,212,111,.22) inset, var(--shadow)}
+    .bin-border.red{box-shadow: 0 0 0 2px rgba(255,77,77,.24) inset, var(--shadow)}
+    .bin-border.yellow{box-shadow: 0 0 0 2px rgba(255,213,74,.18) inset, var(--shadow)}
+
+    /* Camera */
+    #video{
+      width:100%; height:100%; object-fit:cover;
+      display:block;
+    }
+    .camera-hint{
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      background: rgba(0,0,0,.75); backdrop-filter:blur(10px);
+      padding:20px 24px; border-radius:20px; border:1px solid rgba(255,255,255,.15);
+      text-align:center; max-width:320px;
+    }
+    .camera-hint h3{margin:0 0 8px; font-size:16px}
+    .camera-hint p{margin:4px 0; font-size:13px; color:var(--muted); line-height:1.4}
+
+    /* Capture indicator */
+    .capture-indicator{
+      position:absolute; top:16px; left:50%; transform:translateX(-50%);
+      background: rgba(0,0,0,.65); backdrop-filter:blur(8px);
+      padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.2);
+      font-size:12px; font-weight:700; color:var(--text);
+      display:none; align-items:center; gap:8px;
+    }
+    .capture-indicator.show{display:flex}
+    .spinner{
+      width:14px; height:14px; border:2px solid rgba(255,255,255,.25);
+      border-top-color:var(--blue); border-radius:50%;
+      animation: spin .6s linear infinite;
+    }
+    @keyframes spin{ to{transform:rotate(360deg)} }
+
+    /* Overlay results */
+    .overlay{
+      position:absolute; inset:auto 10px 10px 10px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(16,24,36,.92);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      padding:14px;
+      transform: translateY(140%);
+      opacity:0;
+      transition: transform .22s ease, opacity .22s ease;
+      max-height: calc(100% - 20px);
+      overflow-y: auto;
+    }
+    .overlay.show{transform: translateY(0); opacity:1;}
+    .ov-head{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .ov-title{font-weight:900; line-height:1.1; font-size:17px; letter-spacing:.2px}
+    .ov-meta{color:var(--muted); font-size:12px; margin-top:5px}
+    .badge-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .badge{
+      padding:6px 9px; border-radius:999px;
+      border:1px solid var(--outline);
+      background: rgba(255,255,255,.04);
+      font-size:11px; color:var(--muted);
+      display:flex; align-items:center; gap:6px;
+    }
+    .badge strong{color:var(--text); font-weight:800}
+    .star{font-size:13px}
+
+    .conf{
+      margin-top:10px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .bar{
+      flex:1; height:9px; border-radius:999px;
+      background: rgba(255,255,255,.10);
+      overflow:hidden; border:1px solid rgba(255,255,255,.10);
+    }
+    .fill{height:100%; transition: width .3s ease, background .3s ease}
+    .confval{
+      font-variant-numeric: tabular-nums;
+      font-weight:800; color:var(--text); font-size:12px;
+      min-width:58px; text-align:right;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    .btn{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:12px 12px;
+      border-radius: 16px;
+      font-weight:900;
+      letter-spacing:.2px;
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      min-height: 46px;
+      font-size:14px;
+      transition: transform .06s ease, background .12s ease;
+    }
+    .btn:active{transform: scale(.97)}
+    .btn.primary{border-color: rgba(47,120,255,.45); background: rgba(47,120,255,.18)}
+    .btn.alt{border-color: rgba(255,213,74,.45); background: rgba(255,213,74,.12); color: #ffeaa4}
+    .btn.green{border-color: rgba(43,212,111,.40); background: rgba(43,212,111,.14)}
+    .btn.red{border-color: rgba(255,77,77,.45); background: rgba(255,77,77,.12)}
+
+    .autoline{
+      margin-top:10px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      color:var(--muted); font-size:11px;
+    }
+    .route{
+      display:flex; align-items:center; gap:6px;
+      font-weight:800; color:var(--text);
+    }
+
+    /* Bottom controls */
+    .bottombar{
+      display:flex; gap:10px;
+      flex-shrink:0;
+    }
+    .bottombar button{
+      flex:1;
+      border-radius: 16px;
+      border:1px solid var(--outline);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      padding:12px 12px;
+      font-weight:800;
+      font-size:13px;
+      min-height:46px;
+    }
+    .bottombar button:active{transform: scale(.98)}
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      left:50%; transform: translateX(-50%);
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      background: rgba(16,24,36,.95);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      padding:10px 12px;
+      border-radius: 14px;
+      color:var(--text);
+      display:none;
+      align-items:center;
+      gap:10px;
+      max-width: calc(520px - 24px);
+      width: calc(100% - 24px);
+      z-index:100;
+    }
+    .toast.show{display:flex}
+    .toast .msg{flex:1; font-size:12px; color:var(--muted)}
+    .toast .undo{
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:7px 9px;
+      font-weight:800;
+      font-size:12px;
+    }
+
+    /* Settings modal */
+    .modal{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.7);
+      display:none; align-items:center; justify-content:center;
+      padding:20px;
+      z-index:200;
+    }
+    .modal.show{display:flex}
+    .modal-content{
+      background: var(--panel);
+      border:1px solid var(--outline);
+      border-radius:20px;
+      padding:20px;
+      max-width:400px;
+      width:100%;
+      box-shadow: var(--shadow);
+    }
+    .modal-content h3{margin:0 0 16px; font-size:18px}
+    .modal-content label{display:block; margin-bottom:14px; font-size:13px}
+    .modal-content label span{display:block; margin-bottom:6px; color:var(--muted)}
+    .modal-content input{
+      width:100%; padding:10px 12px; border-radius:12px;
+      border:1px solid var(--outline); background: rgba(255,255,255,.04);
+      color:var(--text);
+    }
+    .modal-content .btns{display:flex; gap:10px; margin-top:16px}
+    .modal-content .btns button{
+      flex:1; padding:10px 14px; border-radius:12px;
+      border:1px solid var(--outline); background: rgba(255,255,255,.06);
+      color:var(--text); font-weight:800;
+    }
+    .modal-content .btns .primary{
+      background: rgba(47,120,255,.18); border-color: rgba(47,120,255,.45);
+    }
+
+    /* Offline queue indicator */
+    .queue-indicator{
+      position:fixed; bottom:calc(70px + env(safe-area-inset-bottom)); right:16px;
+      background: rgba(255,213,74,.15); border:1px solid rgba(255,213,74,.35);
+      padding:8px 12px; border-radius:999px;
+      font-size:11px; font-weight:800; color:#ffeaa4;
+      display:none; align-items:center; gap:6px;
+      z-index:50;
+    }
+    .queue-indicator.show{display:flex}
+
+    /* Review Mode */
+    .review-container{
+      display:none;
+      flex-direction:column;
+      gap:12px;
+      height:100%;
+      overflow-y:auto;
+      padding:12px;
+    }
+    .review-container.show{display:flex}
+
+    .review-header{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--outline);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .review-header h2{margin:0; font-size:16px; font-weight:900}
+    .review-stats{display:flex; gap:12px; font-size:11px; color:var(--muted)}
+    .review-stats .stat{display:flex; align-items:center; gap:4px}
+    .review-stats .stat strong{color:var(--text); font-weight:800}
+
+    .section{
+      border:1px solid var(--outline);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      padding:14px;
+      box-shadow: var(--shadow);
+    }
+    .section h3{
+      margin:0 0 12px; font-size:14px; font-weight:900;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .section .empty{
+      color:var(--muted); font-size:12px; text-align:center; padding:20px;
+    }
+
+    .run-item{
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      background: rgba(255,255,255,.03);
+      padding:12px;
+      margin-bottom:10px;
+    }
+    .run-item:last-child{margin-bottom:0}
+    .run-header{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+      margin-bottom:8px;
+    }
+    .run-title{font-weight:900; font-size:14px}
+    .run-meta{color:var(--muted); font-size:11px; margin-top:4px}
+    .run-issues{
+      font-size:11px; color:var(--muted); margin-top:6px;
+      font-family: 'Courier New', monospace;
+    }
+    .rec-tag{
+      padding:5px 8px; border-radius:999px; font-size:10px; font-weight:900;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      white-space:nowrap;
+    }
+    .rec-tag.blue{border-color: rgba(47,120,255,.40); background: rgba(47,120,255,.14)}
+    .rec-tag.yellow{border-color: rgba(255,213,74,.45); background: rgba(255,213,74,.12); color:#ffeaa4}
+    .rec-tag.green{border-color: rgba(43,212,111,.40); background: rgba(43,212,111,.14)}
+    
+    .run-actions{
+      display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:10px;
+    }
+    .run-actions button{
+      padding:8px 10px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--text); font-weight:800; font-size:11px;
+    }
+    .run-actions button:active{transform:scale(.97)}
+    .run-actions .primary{background: rgba(47,120,255,.18); border-color: rgba(47,120,255,.45)}
+
+    .comic-card{
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      background: rgba(255,255,255,.02);
+      padding:10px;
+      margin-bottom:8px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .comic-card:last-child{margin-bottom:0}
+    .comic-info{flex:1; min-width:0}
+    .comic-title{font-weight:800; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .comic-meta{color:var(--muted); font-size:10px; margin-top:2px}
+    .comic-actions{display:flex; gap:6px}
+    .comic-actions button{
+      padding:6px 8px; border-radius:10px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color:var(--text); font-weight:800; font-size:10px;
+    }
+
+    .export-section{
+      display:flex; gap:10px; margin-top:8px;
+    }
+    .export-section button{
+      flex:1; padding:10px 12px; border-radius:14px;
+      border:1px solid var(--outline);
+      background: rgba(255,255,255,.06);
+      color:var(--text); font-weight:800; font-size:12px;
+    }
+    .export-section button:active{transform:scale(.98)}
+    .export-section .primary{background: rgba(43,212,111,.18); border-color: rgba(43,212,111,.45)}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">CI</div>
+        <div>
+          <div class="title">Comic Intake</div>
+          <div class="sub" id="modeSub">Scan → Glance → Drop</div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="pill" title="Current bin" id="binPill">
+          <span class="dot blue" id="binDot"></span>
+          <span id="binLabel" style="font-size:10px">Run Pool</span>
+        </div>
+        <div class="pill" title="Progress">
+          <span style="font-size:10px; color:var(--muted)">Done</span>
+          <span class="counter" id="counter">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage bin-border blue" id="stage">
+      <video id="video" autoplay playsinline></video>
+      
+      <div class="camera-hint" id="cameraHint" style="display:none">
+        <h3>Camera Access Needed</h3>
+        <p>Allow camera access to scan comics</p>
+      </div>
+
+      <div class="capture-indicator" id="captureIndicator">
+        <div class="spinner"></div>
+        <span>Analyzing...</span>
+      </div>
+
+      <div class="overlay" id="overlay">
+        <div class="ov-head">
+          <div style="flex:1; min-width:0">
+            <div class="ov-title" id="ovTitle">—</div>
+            <div class="ov-meta" id="ovMeta">—</div>
+          </div>
+          <div class="badge" id="standoutBadge" title="Standout">
+            <span class="star">⭐</span>
+            <strong id="standoutText">—</strong>
+          </div>
+        </div>
+
+        <div class="badge-row">
+          <div class="badge"><span style="font-size:10px">Route</span> <strong id="autoRoute">—</strong></div>
+          <div class="badge"><span style="font-size:10px">ID</span> <strong id="idQuality">—</strong></div>
+        </div>
+
+        <div class="conf">
+          <div class="bar"><div class="fill" id="confFill"></div></div>
+          <div class="confval" id="confVal">—</div>
+        </div>
+
+        <div class="actions" id="actions">
+          <button class="btn primary" id="btnAccept">Accept</button>
+          <button class="btn alt" id="btnReview">Review</button>
+        </div>
+
+        <div class="autoline">
+          <div id="notes" style="font-size:11px">—</div>
+          <div class="route" id="advanceLine" style="font-size:11px">—</div>
+        </div>
+      </div>
+
+      <!-- Review Mode Container -->
+      <div class="review-container" id="reviewContainer">
+        <div class="review-header">
+          <h2>📦 Review & Bundle</h2>
+          <div class="review-stats" id="reviewStats">
+            <div class="stat"><strong id="statRuns">0</strong> runs</div>
+            <div class="stat"><strong id="statOneOffs">0</strong> one-offs</div>
+            <div class="stat"><strong id="statManual">0</strong> manual</div>
+          </div>
+        </div>
+
+        <!-- Detected Runs Section -->
+        <div class="section">
+          <h3>
+            <span>🟦 Detected Runs</span>
+            <button id="btnAnalyzeRuns" style="padding:6px 10px; border-radius:10px; border:1px solid rgba(47,120,255,.45); background: rgba(47,120,255,.18); color:var(--text); font-weight:800; font-size:11px">
+              🧠 Analyze All
+            </button>
+          </h3>
+          <div id="runsList"></div>
+        </div>
+
+        <!-- One-Offs Section -->
+        <div class="section">
+          <h3>⭐ One-Offs (Protected Keys)</h3>
+          <div id="oneOffsList"></div>
+        </div>
+
+        <!-- Manual Review Queue -->
+        <div class="section">
+          <h3>🟨 Manual Review Queue</h3>
+          <div id="manualList"></div>
+        </div>
+
+        <!-- Export Section -->
+        <div class="section">
+          <h3>📤 Export Data</h3>
+          <div class="export-section">
+            <button id="btnExportJSON">Download JSON</button>
+            <button id="btnExportCSV" class="primary">Download CSV</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottombar">
+      <button id="btnModeToggle">📦 Review Mode</button>
+      <button id="btnRetake">🔄 Retake</button>
+      <button id="btnQueue">📋 Queue (<span id="queueCount">0</span>)</button>
+      <button id="btnSettings">⚙️</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <div class="msg" id="toastMsg">—</div>
+    <button class="undo" id="toastUndo">Undo</button>
+  </div>
+
+  <div class="queue-indicator" id="queueIndicator">
+    <span>⏳</span>
+    <span id="queueText">Processing queue...</span>
+  </div>
+
+  <div class="modal" id="settingsModal">
+    <div class="modal-content">
+      <h3>Settings</h3>
+      <label>
+        <span>Gemini API Key</span>
+        <input type="text" id="apiKeyInput" placeholder="Enter your API key" />
+      </label>
+      <label>
+        <span>Auto-advance delay (seconds)</span>
+        <input type="number" id="autoDelayInput" value="3" min="1" max="10" />
+      </label>
+      <label>
+        <span>Confidence threshold for auto-advance</span>
+        <input type="number" id="confThresholdInput" value="0.85" min="0.5" max="1" step="0.05" />
+      </label>
+      <div class="btns">
+        <button id="btnCancelSettings">Cancel</button>
+        <button class="primary" id="btnSaveSettings">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================================
+    // KEY DETECTION SYSTEM
+    // ============================================================================
+    // Note: COMIC_KEYS_DB is loaded from embedded script in <head>
+    // 764 keys covering 1930s-2020s (Golden, Silver, Bronze, Copper, Modern Age)
+    // ============================================================================
+
+    function normalizeForLookup(publisher, series, issue) {
+      if (!publisher || !series || !issue) return null;
+      
+      // Normalize exactly like the database builder
+      const pub = publisher.toUpperCase().trim();
+      const ser = series.toUpperCase()
+        .replace(/[^\w\s]/g, '')  // Remove punctuation
+        .replace(/\s+/g, ' ')      // Normalize spaces
+        .trim();
+      const iss = String(issue).replace(/[^\d]/g, ''); // Numeric only
+      
+      return `${pub}::${ser}::${iss}`;
+    }
+
+    function checkKeyDatabase(result) {
+      const lookupKey = normalizeForLookup(result.publisher, result.series, result.issue_number);
+      if (!lookupKey) return null;
+      
+      const keyData = COMIC_KEYS_DB[lookupKey];
+      if (keyData) {
+        return {
+          reason: keyData.r,
+          importance: keyData.i
+        };
+      }
+      return null;
+    }
+
+    function isStandout(result) {
+      // Check database first (highest priority)
+      const keyMatch = checkKeyDatabase(result);
+      if (keyMatch) {
+        result.standoutReason = keyMatch.reason;
+        result.keyImportance = keyMatch.importance;
+        return true;
+      }
+      
+      // Gemini already flagged it as standout
+      if (result.standout === 'yes') {
+        result.standoutReason = result.notes || 'Notable cover/event';
+        return true;
+      }
+      
+      // Fallback rules (if database doesn't have it)
+      const issueNum = parseInt(String(result.issue_number).replace(/[^\d]/g, ''));
+      
+      // Rule: Issue #1 or #0
+      if (issueNum === 1 || issueNum === 0) {
+        result.standoutReason = `Issue #${issueNum}`;
+        return true;
+      }
+      
+      // Rule: Pre-1975 (Golden/Silver Age)
+      if (result.approx_year) {
+        const yearMatch = result.approx_year.match(/(\d{4})/);
+        const year = yearMatch ? parseInt(yearMatch[1]) : null;
+        if (year && year < 1975) {
+          result.standoutReason = `Pre-1975 (${year})`;
+          return true;
+        }
+      }
+      
+      // Soft rule: Gemini said 'maybe' + high confidence
+      if (result.standout === 'maybe' && result.confidence > 0.90) {
+        result.standoutReason = 'High confidence match';
+        return true;
+      }
+      
+      return false;
+    }
+
+    // ============================================================================
+    // CONFIG & STATE
+    // ============================================================================
+    
+    let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
+    let AUTO_DELAY = parseInt(localStorage.getItem('auto_delay') || '3');
+    let CONF_THRESHOLD = parseFloat(localStorage.getItem('conf_threshold') || '0.85');
+    
+    let processed = 0;
+    let currentResult = null;
+    let lastAction = null;
+    let autoTimer = null;
+    let countdown = 0;
+    
+    let offlineQueue = JSON.parse(localStorage.getItem('offline_queue') || '[]');
+    let isProcessingQueue = false;
+
+    let currentMode = 'camera'; // 'camera' or 'review'
+    let detectedRuns = [];
+    let runAnalysisCache = {}; // Cache Gemini bundle analysis
+
+    // ============================================================================
+    // ELEMENTS
+    // ============================================================================
+    
+    const video = document.getElementById('video');
+    const stage = document.getElementById('stage');
+    const overlay = document.getElementById('overlay');
+    const captureIndicator = document.getElementById('captureIndicator');
+    const cameraHint = document.getElementById('cameraHint');
+    
+    const confFill = document.getElementById('confFill');
+    const confVal = document.getElementById('confVal');
+    const ovTitle = document.getElementById('ovTitle');
+    const ovMeta = document.getElementById('ovMeta');
+    const standoutText = document.getElementById('standoutText');
+    const standoutBadge = document.getElementById('standoutBadge');
+    const autoRouteEl = document.getElementById('autoRoute');
+    const idQuality = document.getElementById('idQuality');
+    const notesEl = document.getElementById('notes');
+    const advanceLine = document.getElementById('advanceLine');
+    const btnAccept = document.getElementById('btnAccept');
+    const btnReview = document.getElementById('btnReview');
+    
+    const counter = document.getElementById('counter');
+    const binLabel = document.getElementById('binLabel');
+    const binDot = document.getElementById('binDot');
+    const binPill = document.getElementById('binPill');
+    const modeSub = document.getElementById('modeSub');
+    
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    const toastUndo = document.getElementById('toastUndo');
+    
+    const btnModeToggle = document.getElementById('btnModeToggle');
+    const btnRetake = document.getElementById('btnRetake');
+    const btnQueue = document.getElementById('btnQueue');
+    const btnSettings = document.getElementById('btnSettings');
+    const queueCount = document.getElementById('queueCount');
+    
+    const settingsModal = document.getElementById('settingsModal');
+    const apiKeyInput = document.getElementById('apiKeyInput');
+    const autoDelayInput = document.getElementById('autoDelayInput');
+    const confThresholdInput = document.getElementById('confThresholdInput');
+    const btnSaveSettings = document.getElementById('btnSaveSettings');
+    const btnCancelSettings = document.getElementById('btnCancelSettings');
+    
+    const queueIndicator = document.getElementById('queueIndicator');
+    const queueText = document.getElementById('queueText');
+
+    // Review Mode elements
+    const reviewContainer = document.getElementById('reviewContainer');
+    const reviewStats = document.getElementById('reviewStats');
+    const statRuns = document.getElementById('statRuns');
+    const statOneOffs = document.getElementById('statOneOffs');
+    const statManual = document.getElementById('statManual');
+    const runsList = document.getElementById('runsList');
+    const oneOffsList = document.getElementById('oneOffsList');
+    const manualList = document.getElementById('manualList');
+    const btnAnalyzeRuns = document.getElementById('btnAnalyzeRuns');
+    const btnExportJSON = document.getElementById('btnExportJSON');
+    const btnExportCSV = document.getElementById('btnExportCSV');
+
+    // ============================================================================
+    // CAMERA SETUP
+    // ============================================================================
+    
+    let stream = null;
+    let captureTimeout = null;
+    let isCapturing = false;
+
+    async function initCamera() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment', width: { ideal: 1920 }, height: { ideal: 1080 } },
+          audio: false
+        });
+        video.srcObject = stream;
+        cameraHint.style.display = 'none';
+        
+        // Auto-capture on stability (simulated - you could add motion detection)
+        video.addEventListener('loadedmetadata', () => {
+          scheduleAutoCapture();
+        });
+      } catch (err) {
+        console.error('Camera error:', err);
+        cameraHint.style.display = 'block';
+      }
+    }
+
+    function scheduleAutoCapture() {
+      if (isCapturing || overlay.classList.contains('show')) return;
+      
+      // Simple auto-capture after 0.5s of "stability"
+      clearTimeout(captureTimeout);
+      captureTimeout = setTimeout(() => {
+        if (!isCapturing && !overlay.classList.contains('show')) {
+          captureComic();
+        }
+      }, 500);
+    }
+
+    // Restart auto-capture when overlay is dismissed
+    function restartAutoCapture() {
+      scheduleAutoCapture();
+    }
+
+    // ============================================================================
+    // GEMINI VISION INTEGRATION
+    // ============================================================================
+
+    async function captureComic() {
+      if (!GEMINI_API_KEY) {
+        showToast('⚠️ Set your Gemini API key in Settings first');
+        return;
+      }
+
+      isCapturing = true;
+      captureIndicator.classList.add('show');
+      
+      // Capture frame from video
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+      
+      const imageData = canvas.toDataURL('image/jpeg', 0.9);
+      const base64 = imageData.split(',')[1];
+      
+      try {
+        const result = await analyzeWithGemini(base64);
+        displayResult(result);
+      } catch (err) {
+        console.error('Gemini error:', err);
+        
+        // Add to offline queue
+        const queueItem = {
+          timestamp: Date.now(),
+          imageData: base64,
+          status: 'pending'
+        };
+        offlineQueue.push(queueItem);
+        saveQueue();
+        
+        showToast('⚠️ Analysis failed - added to queue for retry');
+        isCapturing = false;
+        captureIndicator.classList.remove('show');
+        restartAutoCapture();
+      }
+    }
+
+    async function analyzeWithGemini(base64Image) {
+      const prompt = `You are identifying a comic book from a single cover photo.
+
+Return ONLY valid JSON with these fields:
+
+{
+  "publisher": "DC | Marvel | Other | Unknown",
+  "series": "string or null",
+  "issue_number": "string or null",
+  "approx_year": "string (e.g. '1987' or '1985-1988') or null",
+  "standout": "yes | no | maybe",
+  "confidence": 0.0-1.0,
+  "notes": "short reason if confidence < 0.8, otherwise null"
+}
+
+Rules:
+- Do NOT guess issue numbers.
+- If multiple possible series exist, lower confidence.
+- If glare, bag reflection, or cropping prevents reading text, reduce confidence.
+- Standout = yes only for #1 issues, first appearances, anniversary issues (50,75,100,300,500), or clearly notable covers.
+- If unreadable, set series and issue_number to null and confidence < 0.6.`;
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [
+                { text: prompt },
+                {
+                  inline_data: {
+                    mime_type: 'image/jpeg',
+                    data: base64Image
+                  }
+                }
+              ]
+            }]
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Gemini API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const text = data.candidates[0].content.parts[0].text;
+      
+      // Extract JSON from markdown code blocks if present
+      const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) || text.match(/\{[\s\S]*\}/);
+      const jsonText = jsonMatch ? (jsonMatch[1] || jsonMatch[0]) : text;
+      
+      return JSON.parse(jsonText);
+    }
+
+    // ============================================================================
+    // ROUTING LOGIC
+    // ============================================================================
+
+    function determineRoute(result) {
+      // Hard manual if series or issue missing or very low confidence
+      if (!result.series || !result.issue_number || result.confidence < 0.60) {
+        return 'manual';
+      }
+      
+      // Low confidence but readable
+      if (result.confidence < 0.70) {
+        return 'manual_soft';
+      }
+      
+      // Standout = one-off candidate
+      if (result.standout === 'yes') {
+        return 'ebay_oneoff';
+      }
+      
+      // Check for TPB/GN patterns (simplified - could be more sophisticated)
+      if (result.series && (
+        result.series.toLowerCase().includes('tpb') ||
+        result.series.toLowerCase().includes('trade') ||
+        result.series.toLowerCase().includes('omnibus') ||
+        result.series.toLowerCase().includes('graphic novel')
+      )) {
+        return 'amazon';
+      }
+      
+      // Default: run pool
+      return 'ebay_run_pool';
+    }
+
+    function routeLabel(route) {
+      switch(route) {
+        case 'ebay_oneoff': return '🟦 One-Off';
+        case 'amazon': return '🟩 Amazon';
+        case 'ebay_run_pool': return '🟦 Run Pool';
+        case 'return': return '🟥 Return';
+        case 'manual': return '🟨 Manual';
+        case 'manual_soft': return '🟨 Needs Help';
+        default: return '🟨 Manual';
+      }
+    }
+
+    function routeColor(route) {
+      if (route === 'amazon') return 'green';
+      if (route === 'return') return 'red';
+      if (route.startsWith('manual')) return 'yellow';
+      return 'blue';
+    }
+
+    function setBin(route) {
+      const c = routeColor(route);
+      stage.className = `stage bin-border ${c}`;
+      binDot.className = `dot ${c}`;
+      binLabel.textContent = routeLabel(route).substring(2); // Remove emoji for space
+    }
+
+    function confidenceQuality(result) {
+      if (!result.series || !result.issue_number) return 'Needs Help';
+      if (result.confidence >= 0.85) return 'Good';
+      if (result.confidence >= 0.70) return 'OK';
+      return 'Low';
+    }
+
+    // ============================================================================
+    // DISPLAY RESULT
+    // ============================================================================
+
+    function displayResult(result) {
+      isCapturing = false;
+      captureIndicator.classList.remove('show');
+      
+      currentResult = result;
+      currentResult.autoRoute = determineRoute(result);
+      
+      // Apply key detection
+      const isKey = isStandout(result);
+      if (isKey && !result.standout) {
+        result.standout = 'yes'; // Override Gemini if our rules caught it
+      }
+      
+      // Update overlay
+      ovTitle.textContent = `${result.publisher.toUpperCase()} • ${result.series || 'Unidentified'}`;
+      ovMeta.textContent = (result.issue_number ? `Issue #${result.issue_number}` : 'Issue #?') + 
+                          (result.approx_year ? ` • ${result.approx_year}` : '');
+      
+      // Standout badge
+      const standoutValue = result.standout || 'maybe';
+      standoutText.textContent = standoutValue.toUpperCase();
+      const isYes = standoutValue === 'yes';
+      standoutBadge.style.borderColor = isYes ? 'rgba(255,213,74,.45)' : 'rgba(255,255,255,.12)';
+      standoutBadge.style.background = isYes ? 'rgba(255,213,74,.12)' : 'rgba(255,255,255,.06)';
+      
+      // Confidence
+      const pct = Math.max(0, Math.min(1, result.confidence)) * 100;
+      confFill.style.width = `${pct}%`;
+      if (pct >= 85) confFill.style.background = 'rgba(43,212,111,.75)';
+      else if (pct >= 70) confFill.style.background = 'rgba(255,213,74,.75)';
+      else confFill.style.background = 'rgba(255,77,77,.70)';
+      confVal.textContent = result.confidence.toFixed(2);
+      
+      // Route & quality
+      autoRouteEl.textContent = routeLabel(result.autoRoute).substring(2);
+      idQuality.textContent = confidenceQuality(result);
+      
+      // Notes - show standout reason if it exists
+      let notesText = result.notes || 'Ready';
+      if (result.standoutReason) {
+        notesText = `⭐ ${result.standoutReason}`;
+      }
+      notesEl.textContent = notesText;
+      
+      // Adapt buttons
+      const hardManual = (!result.series || !result.issue_number || result.confidence < 0.70);
+      if (hardManual) {
+        btnAccept.textContent = '🟨 MANUAL';
+        btnAccept.className = 'btn alt';
+        btnReview.textContent = '🟥 RETURN';
+        btnReview.className = 'btn red';
+      } else {
+        if (result.autoRoute === 'amazon') {
+          btnAccept.textContent = '🟩 AMAZON';
+          btnAccept.className = 'btn green';
+        } else if (result.autoRoute === 'ebay_run_pool') {
+          btnAccept.textContent = '🟦 RUN POOL';
+          btnAccept.className = 'btn primary';
+        } else {
+          btnAccept.textContent = '🟦 ONE-OFF';
+          btnAccept.className = 'btn primary';
+        }
+        btnReview.textContent = '🟨 REVIEW';
+        btnReview.className = 'btn alt';
+      }
+      
+      // Set bin
+      if (hardManual) setBin('manual');
+      else setBin(result.autoRoute);
+      
+      // Auto-advance
+      clearAutoAdvance();
+      const canAuto = !hardManual && result.confidence >= CONF_THRESHOLD;
+      if (canAuto) {
+        countdown = AUTO_DELAY;
+        advanceLine.textContent = `Auto: ${countdown}s`;
+        autoTimer = setInterval(() => {
+          countdown--;
+          advanceLine.textContent = `Auto: ${countdown}s`;
+          if (countdown <= 0) {
+            clearAutoAdvance();
+            commitRoute(result.autoRoute);
+          }
+        }, 1000);
+      } else {
+        advanceLine.textContent = hardManual ? '—' : 'Manual only';
+      }
+      
+      // Show overlay
+      overlay.classList.add('show');
+    }
+
+    function clearAutoAdvance() {
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        autoTimer = null;
+      }
+    }
+
+    // ============================================================================
+    // COMMIT ROUTE
+    // ============================================================================
+
+    function commitRoute(route) {
+      if (!currentResult) return;
+      
+      processed++;
+      counter.textContent = processed;
+      
+      // Save to history
+      const historyItem = {
+        ...currentResult,
+        finalRoute: route,
+        timestamp: Date.now()
+      };
+      
+      let history = JSON.parse(localStorage.getItem('comic_history') || '[]');
+      history.push(historyItem);
+      localStorage.setItem('comic_history', JSON.stringify(history));
+      
+      lastAction = historyItem;
+      
+      // Toast
+      const title = `${currentResult.publisher} • ${currentResult.series || 'Unidentified'}`;
+      const issue = currentResult.issue_number ? `#${currentResult.issue_number}` : '';
+      showToast(`${routeLabel(route)} — ${title} ${issue}`);
+      
+      // Reset
+      hideOverlay();
+      currentResult = null;
+      restartAutoCapture();
+    }
+
+    function hideOverlay() {
+      overlay.classList.remove('show');
+      clearAutoAdvance();
+    }
+
+    // ============================================================================
+    // OFFLINE QUEUE PROCESSING
+    // ============================================================================
+
+    function saveQueue() {
+      localStorage.setItem('offline_queue', JSON.stringify(offlineQueue));
+      queueCount.textContent = offlineQueue.length;
+    }
+
+    async function processQueue() {
+      if (isProcessingQueue || offlineQueue.length === 0) return;
+      
+      isProcessingQueue = true;
+      queueIndicator.classList.add('show');
+      
+      while (offlineQueue.length > 0) {
+        const item = offlineQueue[0];
+        queueText.textContent = `Processing ${offlineQueue.length} queued...`;
+        
+        try {
+          const result = await analyzeWithGemini(item.imageData);
+          
+          // Auto-commit queued items
+          const route = determineRoute(result);
+          processed++;
+          counter.textContent = processed;
+          
+          const historyItem = {
+            ...result,
+            finalRoute: route,
+            timestamp: item.timestamp,
+            fromQueue: true
+          };
+          
+          let history = JSON.parse(localStorage.getItem('comic_history') || '[]');
+          history.push(historyItem);
+          localStorage.setItem('comic_history', JSON.stringify(history));
+          
+          // Remove from queue
+          offlineQueue.shift();
+          saveQueue();
+          
+        } catch (err) {
+          console.error('Queue processing error:', err);
+          break;
+        }
+      }
+      
+      queueIndicator.classList.remove('show');
+      isProcessingQueue = false;
+      
+      if (offlineQueue.length === 0) {
+        showToast('✅ Queue processed successfully');
+      }
+    }
+
+    // ============================================================================
+    // UI CONTROLS
+    // ============================================================================
+
+    btnModeToggle.addEventListener('click', () => {
+      const newMode = currentMode === 'camera' ? 'review' : 'camera';
+      switchMode(newMode);
+    });
+
+    btnRetake.addEventListener('click', () => {
+      hideOverlay();
+      restartAutoCapture();
+    });
+
+    btnAccept.addEventListener('click', () => {
+      if (!currentResult) return;
+      const hardManual = (!currentResult.series || !currentResult.issue_number || currentResult.confidence < 0.70);
+      commitRoute(hardManual ? 'manual' : currentResult.autoRoute);
+    });
+
+    btnReview.addEventListener('click', () => {
+      if (!currentResult) return;
+      const hardManual = (!currentResult.series || !currentResult.issue_number || currentResult.confidence < 0.70);
+      commitRoute(hardManual ? 'return' : 'manual_soft');
+    });
+
+    btnQueue.addEventListener('click', () => {
+      if (offlineQueue.length === 0) {
+        showToast('Queue is empty');
+      } else {
+        processQueue();
+      }
+    });
+
+    btnSettings.addEventListener('click', () => {
+      apiKeyInput.value = GEMINI_API_KEY;
+      autoDelayInput.value = AUTO_DELAY;
+      confThresholdInput.value = CONF_THRESHOLD;
+      settingsModal.classList.add('show');
+    });
+
+    btnSaveSettings.addEventListener('click', () => {
+      GEMINI_API_KEY = apiKeyInput.value.trim();
+      AUTO_DELAY = parseInt(autoDelayInput.value);
+      CONF_THRESHOLD = parseFloat(confThresholdInput.value);
+      
+      localStorage.setItem('gemini_api_key', GEMINI_API_KEY);
+      localStorage.setItem('auto_delay', AUTO_DELAY);
+      localStorage.setItem('conf_threshold', CONF_THRESHOLD);
+      
+      settingsModal.classList.remove('show');
+      showToast('✅ Settings saved');
+    });
+
+    btnCancelSettings.addEventListener('click', () => {
+      settingsModal.classList.remove('show');
+    });
+
+    toastUndo.addEventListener('click', () => {
+      if (!lastAction) return;
+      
+      // Remove from history
+      let history = JSON.parse(localStorage.getItem('comic_history') || '[]');
+      history = history.filter(h => h.timestamp !== lastAction.timestamp);
+      localStorage.setItem('comic_history', JSON.stringify(history));
+      
+      processed = Math.max(0, processed - 1);
+      counter.textContent = processed;
+      
+      toast.classList.remove('show');
+      showToast('↩️ Undone');
+      lastAction = null;
+    });
+
+    btnAnalyzeRuns.addEventListener('click', analyzeAllRuns);
+    btnExportJSON.addEventListener('click', exportJSON);
+    btnExportCSV.addEventListener('click', exportCSV);
+
+    // ============================================================================
+    // TOAST
+    // ============================================================================
+
+    function showToast(message) {
+      toastMsg.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 5000);
+    }
+
+    // ============================================================================
+    // MODE TOGGLE
+    // ============================================================================
+
+    function switchMode(mode) {
+      currentMode = mode;
+      
+      if (mode === 'camera') {
+        video.style.display = 'block';
+        reviewContainer.classList.remove('show');
+        btnModeToggle.textContent = '📦 Review Mode';
+        btnRetake.style.display = 'block';
+        binPill.style.display = 'flex';
+        modeSub.textContent = 'Scan → Glance → Drop';
+        
+        // Restart camera if needed
+        if (!stream) initCamera();
+        else restartAutoCapture();
+        
+      } else {
+        video.style.display = 'none';
+        hideOverlay();
+        reviewContainer.classList.add('show');
+        btnModeToggle.textContent = '📸 Camera Mode';
+        btnRetake.style.display = 'none';
+        binPill.style.display = 'none';
+        modeSub.textContent = 'Review & Bundle';
+        
+        // Stop camera
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+          stream = null;
+        }
+        
+        // Load review data
+        buildReviewMode();
+      }
+    }
+
+    // ============================================================================
+    // REVIEW MODE - RUN DETECTION
+    // ============================================================================
+
+    function normalizeSeriesKey(publisher, series) {
+      if (!series) return null;
+      
+      // Normalize series name for grouping
+      let key = series.toLowerCase()
+        .replace(/[^\w\s]/g, '') // Remove punctuation
+        .replace(/\s+/g, ' ')     // Normalize spaces
+        .trim();
+      
+      // Remove volume indicators
+      key = key.replace(/\bvol\s*\d+\b/gi, '');
+      key = key.replace(/\bvolume\s*\d+\b/gi, '');
+      key = key.replace(/\bv\d+\b/gi, '');
+      
+      return `${publisher}::${key}`;
+    }
+
+    function parseIssueNumber(issueStr) {
+      if (!issueStr) return null;
+      
+      // Extract numeric part
+      const match = issueStr.match(/(\d+)/);
+      return match ? parseInt(match[1]) : null;
+    }
+
+    function detectRuns() {
+      const history = JSON.parse(localStorage.getItem('comic_history') || '[]');
+      
+      // Filter run pool candidates
+      const runPool = history.filter(h => 
+        h.finalRoute === 'ebay_run_pool' && 
+        h.series && 
+        h.issue_number
+      );
+      
+      // Group by series
+      const grouped = {};
+      runPool.forEach(comic => {
+        const key = normalizeSeriesKey(comic.publisher, comic.series);
+        if (!key) return;
+        
+        if (!grouped[key]) {
+          grouped[key] = {
+            publisher: comic.publisher,
+            series: comic.series,
+            comics: []
+          };
+        }
+        
+        grouped[key].comics.push(comic);
+      });
+      
+      // Detect runs within each series
+      const runs = [];
+      Object.values(grouped).forEach(group => {
+        // Sort by issue number
+        group.comics.sort((a, b) => {
+          const numA = parseIssueNumber(a.issue_number);
+          const numB = parseIssueNumber(b.issue_number);
+          return (numA || 0) - (numB || 0);
+        });
+        
+        // Find consecutive sequences
+        let currentRun = [];
+        let lastIssueNum = null;
+        
+        group.comics.forEach((comic, idx) => {
+          const issueNum = parseIssueNumber(comic.issue_number);
+          
+          if (lastIssueNum === null || issueNum === lastIssueNum + 1) {
+            // Continue run
+            currentRun.push(comic);
+          } else if (issueNum > lastIssueNum + 3) {
+            // Gap > 3, split run
+            if (currentRun.length >= 2) {
+              runs.push(createRunObject(group, currentRun));
+            }
+            currentRun = [comic];
+          } else {
+            // Small gap, keep in run but note it
+            currentRun.push(comic);
+          }
+          
+          lastIssueNum = issueNum;
+          
+          // Handle last comic
+          if (idx === group.comics.length - 1 && currentRun.length >= 2) {
+            runs.push(createRunObject(group, currentRun));
+          }
+        });
+      });
+      
+      return runs;
+    }
+
+    function createRunObject(group, comics) {
+      const issues = comics.map(c => parseIssueNumber(c.issue_number));
+      const minIssue = Math.min(...issues);
+      const maxIssue = Math.max(...issues);
+      
+      // Detect gaps
+      const hasGaps = issues.some((num, idx) => 
+        idx > 0 && num > issues[idx - 1] + 1
+      );
+      
+      const issueList = hasGaps 
+        ? comics.map(c => c.issue_number).join(', ')
+        : `${minIssue}–${maxIssue}`;
+      
+      return {
+        publisher: group.publisher,
+        series: group.series,
+        comics: comics,
+        count: comics.length,
+        issueList: issueList,
+        minIssue: minIssue,
+        maxIssue: maxIssue,
+        hasGaps: hasGaps,
+        recommendation: null,
+        analyzed: false
+      };
+    }
+
+    // ============================================================================
+    // REVIEW MODE - GEMINI BUNDLE ANALYSIS
+    // ============================================================================
+
+    async function analyzeBundleWithGemini(run) {
+      const cacheKey = `${run.publisher}::${run.series}::${run.issueList}`;
+      
+      if (runAnalysisCache[cacheKey]) {
+        return runAnalysisCache[cacheKey];
+      }
+      
+      const prompt = `Given this comic series and issue list, is this more valuable sold as a group or individually?
+
+Series: ${run.publisher} - ${run.series}
+Issues: ${run.issueList} (${run.count} comics)
+${run.hasGaps ? 'Note: This run has gaps in issue numbers' : 'Note: This is a consecutive run'}
+
+Approximate year range: ${run.comics[0].approx_year || 'unknown'}
+
+Return ONLY valid JSON:
+{
+  "recommendation": "group | individual | mixed",
+  "reason": "one sentence why"
+}
+
+Rules:
+- "group" = better as a bundle/lot
+- "individual" = worth listing separately
+- "mixed" = some should be pulled out
+- Keep reason under 100 characters`;
+
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                parts: [{ text: prompt }]
+              }]
+            })
+          }
+        );
+
+        if (!response.ok) throw new Error('Gemini API error');
+
+        const data = await response.json();
+        const text = data.candidates[0].content.parts[0].text;
+        const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) || text.match(/\{[\s\S]*\}/);
+        const jsonText = jsonMatch ? (jsonMatch[1] || jsonMatch[0]) : text;
+        const result = JSON.parse(jsonText);
+        
+        runAnalysisCache[cacheKey] = result;
+        return result;
+        
+      } catch (err) {
+        console.error('Bundle analysis error:', err);
+        return {
+          recommendation: 'group',
+          reason: 'Analysis failed - defaulting to bundle'
+        };
+      }
+    }
+
+    async function analyzeAllRuns() {
+      if (!GEMINI_API_KEY) {
+        showToast('⚠️ Set your Gemini API key in Settings first');
+        return;
+      }
+      
+      btnAnalyzeRuns.textContent = '⏳ Analyzing...';
+      btnAnalyzeRuns.disabled = true;
+      
+      for (let run of detectedRuns) {
+        if (!run.analyzed) {
+          const analysis = await analyzeBundleWithGemini(run);
+          run.recommendation = analysis.recommendation;
+          run.reason = analysis.reason;
+          run.analyzed = true;
+          
+          // Update UI
+          renderRuns();
+          
+          // Small delay to avoid rate limits
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+      }
+      
+      btnAnalyzeRuns.textContent = '✅ Analysis Complete';
+      setTimeout(() => {
+        btnAnalyzeRuns.textContent = '🧠 Analyze All';
+        btnAnalyzeRuns.disabled = false;
+      }, 2000);
+    }
+
+    // ============================================================================
+    // REVIEW MODE - RENDERING
+    // ============================================================================
+
+    function buildReviewMode() {
+      const history = JSON.parse(localStorage.getItem('comic_history') || '[]');
+      
+      // Detect runs
+      detectedRuns = detectRuns();
+      
+      // Count categories
+      const oneOffs = history.filter(h => h.finalRoute === 'ebay_oneoff');
+      const manual = history.filter(h => 
+        h.finalRoute === 'manual' || h.finalRoute === 'manual_soft'
+      );
+      
+      // Update stats
+      statRuns.textContent = detectedRuns.length;
+      statOneOffs.textContent = oneOffs.length;
+      statManual.textContent = manual.length;
+      
+      // Render sections
+      renderRuns();
+      renderOneOffs(oneOffs);
+      renderManualQueue(manual);
+    }
+
+    function renderRuns() {
+      if (detectedRuns.length === 0) {
+        runsList.innerHTML = '<div class="empty">No runs detected yet. Keep scanning!</div>';
+        return;
+      }
+      
+      runsList.innerHTML = '';
+      detectedRuns.forEach((run, idx) => {
+        const el = document.createElement('div');
+        el.className = 'run-item';
+        
+        const recTag = run.recommendation 
+          ? (run.recommendation === 'group' ? 'blue' : run.recommendation === 'individual' ? 'yellow' : 'yellow')
+          : '';
+        
+        const recText = run.recommendation 
+          ? run.recommendation.toUpperCase()
+          : 'NOT ANALYZED';
+        
+        el.innerHTML = `
+          <div class="run-header">
+            <div>
+              <div class="run-title">${run.publisher} • ${run.series}</div>
+              <div class="run-meta">${run.count} issues • ${run.issueList}</div>
+              ${run.analyzed ? `<div class="run-meta" style="margin-top:4px; color:var(--muted)">${run.reason}</div>` : ''}
+            </div>
+            ${run.recommendation ? `<div class="rec-tag ${recTag}">${recText}</div>` : ''}
+          </div>
+          <div class="run-actions">
+            <button class="primary" onclick="acceptRunBundle(${idx})">
+              ${run.recommendation === 'group' ? '✅ Keep Bundle' : '🟦 Bundle Anyway'}
+            </button>
+            <button onclick="splitRun(${idx})">✂️ Split</button>
+          </div>
+        `;
+        
+        runsList.appendChild(el);
+      });
+    }
+
+    function renderOneOffs(oneOffs) {
+      if (oneOffs.length === 0) {
+        oneOffsList.innerHTML = '<div class="empty">No one-offs detected</div>';
+        return;
+      }
+      
+      oneOffsList.innerHTML = '';
+      oneOffs.slice(0, 20).forEach(comic => { // Show first 20
+        const el = document.createElement('div');
+        el.className = 'comic-card';
+        el.innerHTML = `
+          <div class="comic-info">
+            <div class="comic-title">${comic.publisher} • ${comic.series || 'Unknown'}</div>
+            <div class="comic-meta">Issue #${comic.issue_number || '?'} • ${comic.approx_year || '?'}</div>
+          </div>
+          <div class="comic-actions">
+            <button>📋 List</button>
+          </div>
+        `;
+        oneOffsList.appendChild(el);
+      });
+      
+      if (oneOffs.length > 20) {
+        const more = document.createElement('div');
+        more.className = 'empty';
+        more.textContent = `+ ${oneOffs.length - 20} more`;
+        oneOffsList.appendChild(more);
+      }
+    }
+
+    function renderManualQueue(manual) {
+      if (manual.length === 0) {
+        manualList.innerHTML = '<div class="empty">No manual reviews needed 🎉</div>';
+        return;
+      }
+      
+      manualList.innerHTML = '';
+      manual.forEach(comic => {
+        const el = document.createElement('div');
+        el.className = 'comic-card';
+        el.innerHTML = `
+          <div class="comic-info">
+            <div class="comic-title">${comic.publisher} • ${comic.series || 'Unidentified'}</div>
+            <div class="comic-meta">
+              Issue #${comic.issue_number || '?'} • Confidence: ${(comic.confidence || 0).toFixed(2)}
+            </div>
+            ${comic.notes ? `<div class="comic-meta" style="margin-top:2px">${comic.notes}</div>` : ''}
+          </div>
+          <div class="comic-actions">
+            <button>🔍 Research</button>
+          </div>
+        `;
+        manualList.appendChild(el);
+      });
+    }
+
+    // ============================================================================
+    // REVIEW MODE - RUN ACTIONS
+    // ============================================================================
+
+    window.acceptRunBundle = function(idx) {
+      const run = detectedRuns[idx];
+      showToast(`✅ Accepted bundle: ${run.series} (${run.count} issues)`);
+      // In real app, this would mark for eBay bundle listing
+    };
+
+    window.splitRun = function(idx) {
+      const run = detectedRuns[idx];
+      showToast(`✂️ Split run: ${run.series} - now ${run.count} individual listings`);
+      // In real app, this would move comics to individual listing queue
+    };
+
+    // ============================================================================
+    // EXPORT FUNCTIONS
+    // ============================================================================
+
+    function exportJSON() {
+      const history = JSON.parse(localStorage.getItem('comic_history') || '[]');
+      
+      const exportData = {
+        exported_at: new Date().toISOString(),
+        total_comics: history.length,
+        runs: detectedRuns.map(r => ({
+          publisher: r.publisher,
+          series: r.series,
+          issues: r.issueList,
+          count: r.count,
+          recommendation: r.recommendation,
+          reason: r.reason
+        })),
+        one_offs: history.filter(h => h.finalRoute === 'ebay_oneoff'),
+        manual_review: history.filter(h => 
+          h.finalRoute === 'manual' || h.finalRoute === 'manual_soft'
+        ),
+        all_comics: history
+      };
+      
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `comic-intake-${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      showToast('📥 JSON exported');
+    }
+
+    function exportCSV() {
+      const history = JSON.parse(localStorage.getItem('comic_history') || '[]');
+      
+      const headers = ['Publisher', 'Series', 'Issue', 'Year', 'Route', 'Confidence', 'Standout', 'Notes'];
+      const rows = history.map(h => [
+        h.publisher || '',
+        h.series || '',
+        h.issue_number || '',
+        h.approx_year || '',
+        h.finalRoute || '',
+        (h.confidence || 0).toFixed(2),
+        h.standout || '',
+        h.notes || ''
+      ]);
+      
+      const csv = [
+        headers.join(','),
+        ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+      ].join('\n');
+      
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `comic-intake-${Date.now()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      showToast('📥 CSV exported');
+    }
+
+    // ============================================================================
+    // INIT
+    // ============================================================================
+
+    counter.textContent = processed;
+    queueCount.textContent = offlineQueue.length;
+    setBin('ebay_run_pool');
+    
+    // Start camera
+    initCamera();
+    
+    // Process queue on load if exists
+    if (offlineQueue.length > 0) {
+      setTimeout(() => {
+        if (confirm(`You have ${offlineQueue.length} comics in the offline queue. Process now?`)) {
+          processQueue();
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
